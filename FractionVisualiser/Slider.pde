@@ -23,7 +23,7 @@ class Slider{
     strokeWeight(int(height/100));
     xmin=int(width*0.1);
     xmax=int(width*0.5);
-    xpos = int(float(value-min)/float(max-min)*(xmax-xmin)+xmin);
+    xpos = max(int(float(value-min)/float(max-min)*(xmax-xmin)+xmin),xmin);
     line(xmin,ypos,xmax,ypos);
     fill(0);
     if (dragging) fill(128);

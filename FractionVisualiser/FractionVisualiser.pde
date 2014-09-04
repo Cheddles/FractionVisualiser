@@ -8,10 +8,9 @@ void setup(){
   if (frame != null) {
     frame.setResizable(true);
  }
- setDenominator=new Slider(1, 25, 7, int(height*0.9));
+ setDenominator=new Slider(1, 30, 7, int(height*0.9));
  setNumerator=new Slider(1, setDenominator.value, 3, int(height*0.1));
  wheel=new Wheel();
- textSize(height*0.3);
 }
 
 void draw(){
@@ -19,6 +18,7 @@ void draw(){
   wheel.diameter=int(min(height*0.95, width*0.475));
   setDenominator.ypos=int(height*0.9);
   setNumerator.ypos=int(height*0.1);
+  textSize(height*0.3);
   
   if (setNumerator.dragging) setNumerator.drag();
   if (setDenominator.dragging){
