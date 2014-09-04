@@ -8,20 +8,25 @@ class Slider{
  int ballDiameter = int(min(height/12, width/20));
  boolean dragging=false;
  int dragOffset;  //horizontal offset of the mouse from the ball centre when dragging
- 
+ int xmin;
+ int xmax;
+    
  Slider(int minValue, int maxValue, int startValue, int verticalLocation){
    max=maxValue;  //to make available to methods
    min=minValue;
    ypos=verticalLocation;
+   value=startValue;
  }
 
   void display(){
-    int xmin=int(width*0.1);
-    int xmax=int(width*0.5);
     stroke(0);
-    xpos = int(float((value-min)/(max-min)*(xmax-xmin))+xmin);
+    strokeWeight(int(height/100));
+    xmin=int(width*0.1);
+    xmax=int(width*0.5);
+    xpos = int(float(value-min)/float(max-min)*(xmax-xmin)+xmin);
     line(xmin,ypos,xmax,ypos);
     fill(0);
+    if (dragging) fill(128);
     ellipse(xpos,ypos,ballDiameter,ballDiameter);
 //    drawArrow();
   }
@@ -30,23 +35,22 @@ class Slider{
     float d = pow(pow(mx-xpos,2)+pow(my-ypos,2),0.5);
     if (d < ballDiameter) {
       dragging = true;
-      ///dragOffset.x = location.x-mx;
       dragOffset = xpos-mx;
     }
   }
   
-//  float drag() {
-//      int newloc = mouseY + dragOffset;
-//      float newMass=((ymax-newloc)*(max-min)/(ymax-ymin)+min);
-//      newMass=float(int(newMass*100))/100;
-//      if (newMass>max) newMass=max;
-//      if (newMass<min) newMass=min;
-//      return newMass;
-//  }
-//  
-  void stopDragging() {
-    dragging = false;
+  void drag() {
+      int newloc = mouseX + dragOffset;
+      //stop out of range dragging
+      if (newloc>xmax) newloc=xmax;
+      if (newloc<xmin) newloc=xmin;
+      
+      //check to see if moved far enough for integer change
+      if ((newloc-xpos)>(xmax-xmin)/(2*(max-min))) value++;
+      if ((xpos-newloc)>(xmax-xmin)/(2*(max-min))) value--;
+
   }
+
   
 //   void drawArrow(){
 //   // draw a red arrow indicating slider motion
