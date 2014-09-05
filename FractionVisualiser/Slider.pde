@@ -5,8 +5,9 @@ class Slider{
  int value;  // current value
  int xpos;
  int ypos;
- int ballDiameter = int(min(height/12, width/20));
+ int ballDiameter;
  boolean dragging=false;
+ boolean clickedOnce=false;  // if this control has been clicked once (to display control instructions)
  int dragOffset;  //horizontal offset of the mouse from the ball centre when dragging
  int xmin;
  int xmax;
@@ -23,6 +24,7 @@ class Slider{
     strokeWeight(int(height/100));
     xmin=int(width*0.1);
     xmax=int(width*0.5);
+    ballDiameter = int(min(height/12, width/20));
     xpos = max(int(float(value-min)/float(max-min)*(xmax-xmin)+xmin),xmin);
     line(xmin,ypos,xmax,ypos);
     fill(0);
