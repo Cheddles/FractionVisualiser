@@ -1,6 +1,7 @@
 Slider setNumerator;
 Slider setDenominator;
 Wheel wheel;
+int shapeType=0;  // shape being shown (0=circle, 1=rectangle, 2=square)
 
 void setup(){
   size(1024,768);
@@ -15,7 +16,7 @@ void setup(){
 
 void draw(){
   background(255);
-  wheel.diameter=int(min(height*0.95, width*0.475));
+  wheel.diameter=int(min(height*0.90, width*0.45));
   setDenominator.ypos=int(height*0.9);
   setNumerator.ypos=int(height*0.1);
   
@@ -45,7 +46,7 @@ void draw(){
   pushMatrix();
     translate(0,0);
     rotate(PI*0.5);
-    textSize(width/50);
+    textSize (height/35);
     textAlign(BOTTOM, LEFT);
     fill(0);
     text("Suggestions and feedback to Chris.Heddles@asms.sa.edu.au", width/100,-height/80);

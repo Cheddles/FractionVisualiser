@@ -20,22 +20,26 @@ class Wheel{
     float angle;  // rotation angle required to draw segments and dividing lines
     
     xpos=int(width*0.75);
-    ypos=int(height*0.5);
-    strokeWeight(int(height/100));
+    ypos=int(height*0.55);
+    strokeWeight(max(1,int(height/(15*setDenominator.value))));
     stroke(0);
     
     angle=startAngle;  //start at the top of the circle
     fill(shadedFill);  // start with filled segments
     
-    for(int i=0; i<denominator; i++){
-      if (angle>(2*PI)) angle=angle-(2*PI);  //reset angle once over 2*PI
-      if(i==numerator) fill(emptyFill);  //switch to "empty" segments
-   
-      arc(xpos, ypos, diameter, diameter, angle, angle+(2*PI/denominator), PIE);
-      angle=angle+(2*PI)/denominator;
+    if (setDenominator.value==1){
+      strokeWeight(int(height/30));
+      ellipse(xpos, ypos, diameter, diameter);
     }
-    
-    //if
+    else{
+      for(int i=0; i<denominator; i++){
+        if (angle>(2*PI)) angle=angle-(2*PI);  //reset angle once over 2*PI
+        if(i==numerator) fill(emptyFill);  //switch to "empty" segments
+     
+        arc(xpos, ypos, diameter, diameter, angle, angle+(2*PI/denominator), PIE);
+        angle=angle+(2*PI)/denominator;
+      }
+    }
   }
   
   void clicked(int mx, int my) {
