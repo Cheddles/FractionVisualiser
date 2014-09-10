@@ -1,7 +1,4 @@
 class Wheel{
-  int diameter;  //display diameter
-  color emptyFill=color(255);
-  color shadedFill=color(128,128,255);  // colour for shaded segments
   int xpos;
   int ypos;
   float startAngle=1.5*PI;  // the angle from which the drawing is started
@@ -21,14 +18,14 @@ class Wheel{
     
     xpos=int(width*0.75);
     ypos=int(height*0.55);
-    strokeWeight(max(1,int(height/(15*setDenominator.value))));
+    strokeWeight(max(1,int((height+width)/200-denominator*(height+width)/6000)));
     stroke(0);
     
     angle=startAngle;  //start at the top of the circle
     fill(shadedFill);  // start with filled segments
     
-    if (setDenominator.value==1){
-      strokeWeight(int(height/30));
+    if (denominator==1){
+//      strokeWeight(int(height/30));
       ellipse(xpos, ypos, diameter, diameter);
     }
     else{
