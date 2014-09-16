@@ -14,7 +14,7 @@ class Rectangle{
     sideLength = int(pow(0.25*PI*diameter*diameter,0.5));  // calculate the side length of the square from the corner to corner diameter
     xpos=xCentre;
     ypos=yCentre;
-    strokeWeight(max(1,int((height+width)/200-denominator*(height+width)/6000)));  // roughly scale line thickness with number of segments
+    strokeWeight(max(1,int(((height+width)/200-denominator*(height+width)/6000)/2)));  // roughly scale line thickness with number of segments
     stroke(0);
     fill(shadedFill);  // start with filled segments
     pushMatrix();

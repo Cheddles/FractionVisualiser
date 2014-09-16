@@ -12,9 +12,9 @@ class Wheel{
   void display(int numerator,int denominator, int xCentre, int yCentre){
     
     float angle;  // rotation angle required to draw segments and dividing lines
-    strokeWeight(max(1,int((height+width)/200-denominator*(height+width)/6000)));
+    strokeWeight(max(1,int(((height+width)/200-denominator*(height+width)/6000)/2)));  // roughly scale line thickness with number of segments
     stroke(0);
-    
+    // transfer to class variables to make visible to other class methods
     xpos = xCentre;
     ypos = yCentre;
     angle=startAngle;

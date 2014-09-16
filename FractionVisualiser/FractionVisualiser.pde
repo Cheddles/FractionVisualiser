@@ -3,7 +3,19 @@
 
 // Full source repository is at https://github.com/Cheddles/FractionVisualiser
 
+// These values are the ones that can be safely changed without breaking the program. Leave the variable names alone - just change the values
+color shadedFill=color(128,128,255);  // the fill colour (RGB) for shape sections that are "selected" by the fraction
+color emptyFill=color(255);  // the fill colour (greyscale) for shape sections that are not "selected" by the fraction. White (255) is
+                             // strongly recommended here to avoid user confusion
+int shapeType=0;  // shape being shown (0=circle, 1=square) - starts with the value assigned
+int numShapes=1;  // number of shapes to be displayed (1 or 2)
+int maxDenominator=12;  // The maximum number of pieces that each shape can be divided up into. Very high values for this make it hard to
+                        // set precise values with the sliders during runtime
+int initialWindowWidth=1024;  // starting width of the display window (can be resized by the user)
+int inititalWindowHeight=768;  // starting height of the display window (can be resized by the user)
+// end of easily-changed code
 
+// Global variables
 Slider setNumerator;  // the slider used to set the value of the numerator
 Slider setDenominator;  // the slider used to set the value of the denominator
 ShapeSelector shapeSelector;  // the object containing the shape type and number selector buttons
@@ -11,19 +23,15 @@ Wheel wheel1;  // the wheel for single shape and the top wheel for two-shape mod
 Wheel wheel2;  // lower wheel for two-shape mode (not displayed in single-shape mode
 Rectangle rectangle1;  // the rectangle for single shape and the top rectangle for two-shape mode
 Rectangle rectangle2;  // lower rectange for two-shape mode (not displayed in single-shape mode
-color shadedFill=color(128,128,255);  // the fill colour (RGB) for shape sections that are "selected" by the fraction
-color emptyFill=color(255);  // the fill colour (RGB) for shape sections that are not "selected" by the fraction
-int shapeType=0;  // shape being shown (0=circle, 1=square)
 int diameter;  //display diameter of the shape being drawn
-int numShapes=1;  // number of shapes to be displayed (1 or 2)
 
 void setup(){
-  size(1024,768);
+  size(initialWindowWidth,inititalWindowHeight);
   background(255);
   if (frame != null) {  // check for environment that allows window resizing
     frame.setResizable(true);
   }
-  setDenominator=new Slider(1, 12, 7, int(height*0.9));  // initialise denominator slider with suitable starting values
+  setDenominator=new Slider(1, maxDenominator, 7, int(height*0.9));  // initialise denominator slider with suitable starting values
   setNumerator=new Slider(0, setDenominator.value, 3, int(height*0.1));  // initialise denominator slider with suitable starting values
   wheel1=new Wheel();
   wheel2=new Wheel();
