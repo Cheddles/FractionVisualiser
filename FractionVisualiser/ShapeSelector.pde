@@ -6,8 +6,8 @@ int yPos2;
 int xPos3;
 int yPos3;
 int size;
-boolean shapeSelected=false;  // if this control has been clicked once (to display control instructions)
-boolean numberSelected=false;  // if this control has been clicked once (to display control instructions)
+boolean shapeSelected=false;  // if the shape has been changed (to display control instructions)
+boolean numberSelected=false;  // if a second shape has been selected (to display control instructions)
 
   ShapeSelector(){
   }
@@ -19,8 +19,9 @@ boolean numberSelected=false;  // if this control has been clicked once (to disp
     yPos2 = int(height*0.06);
     xPos3 = int(width*0.95);
     yPos3 = int(height*0.92);
-    size=min(int(height*0.1),70);
+    size=min(int(height*0.1),120);
 
+    // display shape selection symbools
     rectMode(CENTER);
     stroke(0);
     strokeWeight(1);
@@ -28,11 +29,15 @@ boolean numberSelected=false;  // if this control has been clicked once (to disp
     fill(shadedFill);
     ellipse(xPos1, yPos1, size, size);
     rect(xPos2, yPos2, size, size);
+    
+    // display +1 or -1 option to select number of shapes to display
     fill(0);
     textSize(size*0.8);
     textAlign(CENTER, CENTER);
     if (numShapes==1) text("+1", xPos3, yPos3);
     if (numShapes==2) text("-1", xPos3, yPos3);
+    
+    // display instructions for unused controls
     if (!shapeSelected) {
       fill(127);
       textSize(size*0.4);

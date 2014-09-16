@@ -3,17 +3,19 @@ class Slider{
  int max;  // maximum value
  int min;  // minimum value
  int value;  // current value
- int xpos;
- int ypos;
+ int xpos;  // x-coordinate of the selection ball
+ int ypos;  // y-coordinate of the line and selection ball
  int ballDiameter;
  boolean dragging=false;
  boolean mouseOver=true;
+ boolean clickedOnce=false;
  int dragOffset;  //horizontal offset of the mouse from the ball centre when dragging
- int xmin;
- int xmax;
+ int xmin;  // left end of slider line
+ int xmax;  // right end of slider line
     
  Slider(int minValue, int maxValue, int startValue, int verticalLocation){
-   max=maxValue;  //to make available to methods
+   //to make available to methods
+   max=maxValue;
    min=minValue;
    ypos=verticalLocation;
    value=startValue;
@@ -21,22 +23,33 @@ class Slider{
 
   void display(){
     stroke(0);
+    // recalculate dimensions each time in case window has been resized
     strokeWeight(int(height/100));
     xmin=int(width*0.1);
     xmax=int(width*0.5);
     ballDiameter = int(min(height/12, width/20));
     xpos = max(int(float(value-min)/float(max-min)*(xmax-xmin)+xmin),xmin);
     line(xmin,ypos,xmax,ypos);
+    
+    // display slider
     fill(0);
     if (mouseOver) fill(255);
     ellipse(xpos,ypos,ballDiameter,ballDiameter);
     drawArrow();
+    
+    // display instructions if slider has not yet been used
+    if (!clickedOnce) {
+      textSize(height*0.028);
+      fill(127);
+      text("drag to adjust value", (xmin+xmax)/2, ypos-height*0.065);
+    }
   }
   
   void clicked(int mx, int my) {
     float d = pow(pow(mx-xpos,2)+pow(my-ypos,2),0.5);
     if (d < ballDiameter) {
       dragging = true;
+      clickedOnce=true;
       dragOffset = xpos-mx;
     }
   }

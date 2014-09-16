@@ -1,24 +1,30 @@
-Slider setNumerator;
-Slider setDenominator;
-ShapeSelector shapeSelector;
-Wheel wheel1;
-Wheel wheel2;
-Rectangle rectangle1;
-Rectangle rectangle2;
-color shadedFill=color(128,128,255);
-color emptyFill=color(255);
-int shapeType=0;  // shape being shown (0=circle, 1=rectangle, 2=square)
+// This lightweight fraction visualiser was written by Chris Heddles in 2014 and is licenced under the GPL(v3)
+// Please send any feedback and suggestions to chris.heddles@asms.sa.edu.au
+
+// Full source repository is at https://github.com/Cheddles/FractionVisualiser
+
+
+Slider setNumerator;  // the slider used to set the value of the numerator
+Slider setDenominator;  // the slider used to set the value of the denominator
+ShapeSelector shapeSelector;  // the object containing the shape type and number selector buttons
+Wheel wheel1;  // the wheel for single shape and the top wheel for two-shape mode
+Wheel wheel2;  // lower wheel for two-shape mode (not displayed in single-shape mode
+Rectangle rectangle1;  // the rectangle for single shape and the top rectangle for two-shape mode
+Rectangle rectangle2;  // lower rectange for two-shape mode (not displayed in single-shape mode
+color shadedFill=color(128,128,255);  // the fill colour (RGB) for shape sections that are "selected" by the fraction
+color emptyFill=color(255);  // the fill colour (RGB) for shape sections that are not "selected" by the fraction
+int shapeType=0;  // shape being shown (0=circle, 1=square)
 int diameter;  //display diameter of the shape being drawn
 int numShapes=1;  // number of shapes to be displayed (1 or 2)
 
 void setup(){
   size(1024,768);
   background(255);
-  if (frame != null) {
+  if (frame != null) {  // check for environment that allows window resizing
     frame.setResizable(true);
   }
-  setDenominator=new Slider(1, 12, 7, int(height*0.9));
-  setNumerator=new Slider(0, setDenominator.value, 3, int(height*0.1));
+  setDenominator=new Slider(1, 12, 7, int(height*0.9));  // initialise denominator slider with suitable starting values
+  setNumerator=new Slider(0, setDenominator.value, 3, int(height*0.1));  // initialise denominator slider with suitable starting values
   wheel1=new Wheel();
   wheel2=new Wheel();
   rectangle1=new Rectangle();
@@ -27,9 +33,12 @@ void setup(){
 }
 
 void draw(){
-  background(255);
+  background(255);  // wipe the screen clear
+  // detect for mouseover of the sliders (to indicate UI controls)
   setNumerator.hover(mouseX, mouseY);
   setDenominator.hover(mouseX, mouseY);
+  
+  // reset slider locations (in case of window resize)
   setDenominator.ypos=int(height*0.9);
   setNumerator.ypos=int(height*0.1);
 
@@ -41,17 +50,19 @@ void draw(){
   if (setNumerator.dragging) setNumerator.drag();
   if (setDenominator.dragging) setDenominator.drag();
   
+  // display sliders and shape selector (as these are always displayed)
   setDenominator.display();
   setNumerator.display();
   shapeSelector.display();
   
+  // display shapes according to the user-selected options of type and number
   switch (shapeType) {
     case 0:  // circle
       if (wheel1.dragging) wheel1.drag();
       if (wheel2.dragging) wheel2.drag();
       if (numShapes==1){
         diameter=int(min(height*0.7, width*0.4));
-        wheel1.display(setNumerator.value, setDenominator.value, int(width*0.75), int(height*0.55));
+        wheel1.display(setNumerator.value, setDenominator.value, int(width*0.75), int(height*0.5));
       }
       else if (numShapes==2){
         diameter=int(min(height*0.4, width*0.3));
@@ -60,12 +71,12 @@ void draw(){
       }
     break;
       
-    case 1:  // rectangle
+    case 1:  // square
       if (rectangle1.dragging) rectangle1.drag();
       if (rectangle2.dragging) rectangle2.drag();
       if (numShapes==1){
         diameter=int(min(height*0.7, width*0.4));
-        rectangle1.display(setNumerator.value, setDenominator.value, int(width*0.75), int(height*0.55));
+        rectangle1.display(setNumerator.value, setDenominator.value, int(width*0.75), int(height*0.5));
       }
       else if (numShapes==2){
         diameter=int(min(height*0.4, width*0.3));
@@ -88,16 +99,16 @@ void draw(){
 
   // show feedback contact details
   pushMatrix();
-    translate(0,0);
+    translate(width*0.02,height*0.5);
     rotate(PI*0.5);
-    textSize (height/35);
-    textAlign(BOTTOM, LEFT);
+    textSize (height/30);
+    textAlign(CENTER, CENTER);
     fill(0);
-    text("Suggestions and feedback to Chris.Heddles@asms.sa.edu.au", width/100,-height/80);
+    text("Suggestions and feedback to Chris.Heddles@asms.sa.edu.au", 0, 0);
   popMatrix();
  }
 
-void mousePressed() {
+void mousePressed() {  // check to see if anything should be moved (depending on mouse location when clicked)
   setNumerator.clicked(mouseX,mouseY);
   setDenominator.clicked(mouseX,mouseY);
   switch (shapeType) {
@@ -116,6 +127,7 @@ void mousePressed() {
 }
 
 void mouseReleased() {
+  // stop any dragging (it's quicker to stop all than to check if any are currently being dragged)
   setNumerator.dragging = false;
   setDenominator.dragging = false;
   wheel1.dragging = false;

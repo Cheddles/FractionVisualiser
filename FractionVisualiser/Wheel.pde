@@ -1,14 +1,10 @@
 class Wheel{
-  int xpos;
-  int ypos;
+  int xpos;  // x-coordinate of wheel centre
+  int ypos;  // y-coordinate of wheel centre
   float startAngle=1.5*PI;  // the angle from which the drawing is started
   boolean dragging=false;
   boolean clickedOnce=false;  // if this control has been clicked once (to display control instructions)
   float dragOffset;  // the angle offset when the mouse is clicked to drag
-
-  float temp;
-  int tempx;
-  int tempy;
   
   Wheel(){
   }
@@ -21,8 +17,7 @@ class Wheel{
     
     xpos = xCentre;
     ypos = yCentre;
-    
-    angle=startAngle;  //start at the top of the circle
+    angle=startAngle;
     fill(shadedFill);  // start with filled segments
     
     if (denominator==1){
@@ -38,7 +33,7 @@ class Wheel{
         angle=angle+(2*PI)/denominator;
       }
     }
-  // show feedback contact details
+  // show rotate instruction if not rotated yet
     if (!clickedOnce){
       pushMatrix();
         translate(xCentre-(diameter*0.6),yCentre);
@@ -57,9 +52,6 @@ class Wheel{
       dragging = true;
       clickedOnce=true;
       dragOffset = findAngle(mx-xpos, my-ypos)-startAngle;
-      temp=findAngle(mx-xpos, my-ypos);
-      tempx=mouseX;
-      tempy=mouseY;
       if (dragOffset<0) dragOffset=dragOffset+(2*PI);
     }
   }
@@ -70,6 +62,7 @@ class Wheel{
     if (startAngle<0) startAngle=startAngle+(2*PI);
   }
   
+  // inverse tangent function with correction for angles outside the first quadrant.
   float findAngle(int x, int y){
     float clickAngle = atan(float(y)/float(x));
     if (x<0) clickAngle = clickAngle+PI;
