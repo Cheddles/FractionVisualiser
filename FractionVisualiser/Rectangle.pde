@@ -10,11 +10,10 @@ class Rectangle{
   Rectangle(){
   }
   
-  void display(int numerator,int denominator){
+  void display(int numerator,int denominator, int xCentre, int yCentre){
     sideLength = int(pow(0.25*PI*diameter*diameter,0.5));
-    
-    xpos=int(width*0.75);
-    ypos=int(height*0.55);
+    xpos=xCentre;
+    ypos=yCentre;
     strokeWeight(max(1,int((height+width)/200-denominator*(height+width)/6000)));
     stroke(0);
 
@@ -24,6 +23,7 @@ class Rectangle{
         translate(xpos,ypos);
         rotate(angle);
       if (setDenominator.value==1){
+        if (numerator==0) fill(emptyFill);
         rect(0, 0, sideLength, sideLength);
       }
       else{
@@ -34,11 +34,11 @@ class Rectangle{
       } 
     popMatrix();
   }
-  
+
   void clicked(int mx, int my) {
     float dClick = 2*pow(pow(mx-xpos,2)+pow(my-ypos,2),0.5);
     int dDrawn = int(1.42*diameter);
-    
+
     if ((dClick < dDrawn)&&(dClick>20)) {
       dragging = true;
       dragOffset = findAngle(mx-xpos, my-ypos)-angle;
@@ -51,13 +51,12 @@ class Rectangle{
     if (angle>(2*PI)) angle=angle-(2*PI);
     if (angle<0) angle=angle+(2*PI);
   }
-  
+
   float findAngle(int x, int y){
     float clickAngle = atan(float(y)/float(x));
     if (x<0) clickAngle = clickAngle+PI;
     if (clickAngle>(2*PI)) clickAngle=clickAngle-(2*PI);
     if (clickAngle<0) clickAngle=clickAngle+(2*PI);
     return clickAngle;
-  }
-  
+  }  
 }

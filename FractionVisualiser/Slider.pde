@@ -7,7 +7,7 @@ class Slider{
  int ypos;
  int ballDiameter;
  boolean dragging=false;
- boolean clickedOnce=false;  // if this control has been clicked once (to display control instructions)
+ boolean mouseOver=true;
  int dragOffset;  //horizontal offset of the mouse from the ball centre when dragging
  int xmin;
  int xmax;
@@ -28,9 +28,9 @@ class Slider{
     xpos = max(int(float(value-min)/float(max-min)*(xmax-xmin)+xmin),xmin);
     line(xmin,ypos,xmax,ypos);
     fill(0);
-    if (dragging) fill(128);
+    if (mouseOver) fill(255);
     ellipse(xpos,ypos,ballDiameter,ballDiameter);
-//    drawArrow();
+    drawArrow();
   }
   
   void clicked(int mx, int my) {
@@ -52,21 +52,31 @@ class Slider{
       if ((xpos-newloc)>(xmax-xmin)/(2*(max-min))) value--;
 
   }
-
   
-//   void drawArrow(){
-//   // draw a red arrow indicating slider motion
-//   stroke(255,0,0);
-//   strokeWeight(10);
-//   line(xpos,(ypos-ballDiameter),xpos,(ypos+ballDiameter));
-//   line(xpos,(ypos-ballDiameter),xpos+ballDiameter/2,(ypos-ballDiameter*0.7));
-//   line(xpos,(ypos-ballDiameter),xpos-ballDiameter/2,(ypos-ballDiameter*0.7));
-//   line(xpos,(ypos+ballDiameter),xpos+ballDiameter/2,(ypos+ballDiameter*0.7));
-//   line(xpos,(ypos+ballDiameter),xpos-ballDiameter/2,(ypos+ballDiameter*0.7));
-//   fill(0,0,0,128);
-//   strokeWeight(0);
-//   ellipse(xpos,ypos,ballDiameter,ballDiameter);
-//   strokeWeight(5);
-// }
+  void hover(int mx, int my) {
+    float d = pow(pow(mx-xpos,2)+pow(my-ypos,2),0.5);
+    if (d < ballDiameter) {
+      mouseOver = true;
+    }
+    else {
+      mouseOver = false;
+    }
+  }
   
+  void drawArrow(){
+    // draw a red arrow indicating slider motion
+    stroke(255,0,0);
+    strokeWeight(10);
+    strokeCap(ROUND);
+    line(xpos-ballDiameter,ypos,xpos+ballDiameter,ypos);
+    line(xpos+ballDiameter,ypos,xpos+ballDiameter*0.7,(ypos-ballDiameter*0.5));
+    line(xpos-ballDiameter,ypos,xpos-ballDiameter*0.7,(ypos-ballDiameter*0.5));
+    line(xpos+ballDiameter,ypos,xpos+ballDiameter*0.7,(ypos+ballDiameter*0.5));
+    line(xpos-ballDiameter,ypos,xpos-ballDiameter*0.7,(ypos+ballDiameter*0.5));
+    
+    fill(0,0,0,100);
+    strokeWeight(0);
+    ellipse(xpos,ypos,ballDiameter,ballDiameter);
+    strokeWeight(5);
+  }
 }
