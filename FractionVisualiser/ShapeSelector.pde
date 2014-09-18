@@ -31,8 +31,8 @@ boolean numberSelected=false;  // if this control has been clicked once (to disp
     fill(0);
     textSize(size*0.8);
     textAlign(CENTER, CENTER);
-    if (numShapes==1) text("+1", xPos3, yPos3);
-    if (numShapes==2) text("-1", xPos3, yPos3);
+    if (numShapes==1) text("+", xPos3, yPos3);
+    if (numShapes==2) text("-", xPos3, yPos3);
     if (!shapeSelected) {
       fill(127);
       textSize(size*0.4);
