@@ -5,8 +5,8 @@ Wheel wheel1;
 Wheel wheel2;
 Rectangle rectangle1;
 Rectangle rectangle2;
-color shadedFill=color(128,128,255);
-color emptyFill=color(255);
+color shadedFill=color(255,0,0);
+color emptyFill=color(255,255,170);
 int shapeType=0;  // shape being shown (0=circle, 1=rectangle, 2=square)
 int diameter;  //display diameter of the shape being drawn
 int numShapes=1;  // number of shapes to be displayed (1 or 2)
@@ -27,7 +27,7 @@ void setup(){
 }
 
 void draw(){
-  background(255);
+  background(emptyFill);
   setNumerator.hover(mouseX, mouseY);
   setDenominator.hover(mouseX, mouseY);
   setDenominator.ypos=int(height*0.9);
