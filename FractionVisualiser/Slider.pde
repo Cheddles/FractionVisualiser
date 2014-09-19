@@ -1,7 +1,7 @@
 class Slider{
  
- int max;  // maximum value
- int min;  // minimum value
+ int max;  // maximum on the slider line
+ int min;  // minimum value on the slider line
  int value;  // current value
  int xpos;  // x-coordinate of the selection ball
  int ypos;  // y-coordinate of the line and selection ball

@@ -21,12 +21,12 @@ class Rectangle{
         translate(xpos,ypos);
         rotate(angle);
       if (setDenominator.value==1){
-        if (numerator==0) fill(emptyFill);
+        if (numerator==0) fill(backGround);
         rect(0, 0, sideLength, sideLength);
       }
       else{
         for(int i=0; i<setDenominator.value; i++){
-          if(i==numerator) fill(emptyFill);  //switch to "empty" segments
+          if(i==numerator) fill(backGround);  //switch to "empty" segments
           rect(0, (-0.5*sideLength)+(i+0.5)*(sideLength/denominator), sideLength, sideLength/denominator);          
         }
       } 

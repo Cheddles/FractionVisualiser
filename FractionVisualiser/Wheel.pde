@@ -21,13 +21,13 @@ class Wheel{
     fill(shadedFill);  // start with filled segments
     
     if (denominator==1){
-      if (numerator==0) fill(emptyFill);
+      if (numerator==0) fill(backGround);
       ellipse(xpos, ypos, diameter, diameter);
     }
     else{
       for(int i=0; i<denominator; i++){
         if (angle>(2*PI)) angle=angle-(2*PI);  //reset angle once over 2*PI
-        if(i==numerator) fill(emptyFill);  //switch to "empty" segments
+        if(i==numerator) fill(backGround);  //switch to "empty" segments
      
         arc(xpos, ypos, diameter, diameter, angle, angle+(2*PI/denominator), PIE);
         angle=angle+(2*PI)/denominator;
