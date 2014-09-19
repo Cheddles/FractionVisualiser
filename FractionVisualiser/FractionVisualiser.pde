@@ -5,8 +5,7 @@
 
 // These values are the ones that can be safely changed without breaking the program. Leave the variable names alone - just change the values
 color shadedFill=color(128,128,255);  // the fill colour (RGB) for shape sections that are "selected" by the fraction
-color emptyFill=color(255);  // the fill colour (greyscale) for shape sections that are not "selected" by the fraction. White (255) is
-                             // strongly recommended here to avoid user confusion
+color backGround=color(250, 250, 250);  // the fill colour (RGB) for background and shape sections that are not "selected" by the fraction.
 int shapeType=0;  // shape being shown (0=circle, 1=square) - starts with the value assigned
 int numShapes=1;  // number of shapes to be displayed (1 or 2)
 int maxDenominator=12;  // The maximum number of pieces that each shape can be divided up into. Very high values for this make it hard to
@@ -27,7 +26,7 @@ int diameter;  //display diameter of the shape being drawn
 
 void setup(){
   size(initialWindowWidth,inititalWindowHeight);
-  background(255);
+  background(backGround);
   if (frame != null) {  // check for environment that allows window resizing
     frame.setResizable(true);
   }
@@ -41,7 +40,7 @@ void setup(){
 }
 
 void draw(){
-  background(255);  // wipe the screen clear
+  background(backGround);  // wipe the screen clear
   // detect for mouseover of the sliders (to indicate UI controls)
   setNumerator.hover(mouseX, mouseY);
   setDenominator.hover(mouseX, mouseY);
@@ -50,13 +49,13 @@ void draw(){
   setDenominator.ypos=int(height*0.9);
   setNumerator.ypos=int(height*0.1);
 
-  // set numerator slider to match the number of shapes
-  setNumerator.max=setDenominator.value*numShapes;
-  if (setNumerator.value>setNumerator.max) setNumerator.value=setNumerator.max;    
-
   // check for user adjustment of fraction values
-  if (setNumerator.dragging) setNumerator.drag();
   if (setDenominator.dragging) setDenominator.drag();
+  if (setNumerator.value>setDenominator.value*numShapes) setDenominator.value=setDenominator.value+1;  // to stop the fraction exceeding the available number of shapes on the screen
+  if (setNumerator.dragging) setNumerator.drag();
+
+  // set numerator slider to match the maximum available (set by denominator and number of shapes)
+  setNumerator.max=setDenominator.value*numShapes;
   
   // display sliders and shape selector (as these are always displayed)
   setDenominator.display();
