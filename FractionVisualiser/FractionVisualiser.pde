@@ -5,7 +5,7 @@
 
 // These values are the ones that can be safely changed without breaking the program. Leave the variable names alone - just change the values
 color shadedFill=color(128,128,255);  // the fill colour (RGB) for shape sections that are "selected" by the fraction
-color backGround=color(250, 250, 250);  // the fill colour (RGB) for background and shape sections that are not "selected" by the fraction.
+color backGround=color(255, 255, 255);  // the fill colour (RGB) for background and shape sections that are not "selected" by the fraction.
 int shapeType=0;  // shape being shown (0=circle, 1=square) - starts with the value assigned
 int numShapes=1;  // number of shapes to be displayed (1 or 2)
 int maxDenominator=12;  // The maximum number of pieces that each shape can be divided up into. Very high values for this make it hard to
