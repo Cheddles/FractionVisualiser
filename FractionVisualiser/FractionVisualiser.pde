@@ -1,7 +1,32 @@
-// This lightweight fraction visualiser was written by Chris Heddles in 2014 and is licenced under the GPL(v3)
-// Please send any feedback and suggestions to chris.heddles@asms.sa.edu.au
+// FractionVisualiser                                                                       //
+// A lightweight way to explore the relationship between the algebraic form                 //
+// and two different area representations for fractions between 0 and 2                     //
+// Additionallly, the early parts of the code are structured and commented to encourage     //
+// novice programmers to make modest changes with minimal risk of completely breaking the   //
+// app. Of course, any such breakages are easily fixed by restoring to the downloaded       //
+// version.                                                                                 //
+//////////////////////////////////////////////////////////////////////////////////////////////
+// by Chris Heddles, 2014                                                                   //
+// Please send any feedback and suggestions to Chris.Heddles@asms.sa.edu.au                 //
+// Full source repository is at https://github.com/Cheddles/FractionVisualiser              //
+//                                                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////
+//This file is part of Fraction Visualiser.                                                 //
+//                                                                                          //
+//  FractionVisualiser is free software: you can redistribute it and/or modify              //
+//  it under the terms of the GNU General Public License as published by                    //
+//  the Free Software Foundation, either version 3 of the License, or                       //
+//  (at your option) any later version.                                                     //
+//                                                                                          //
+//  FractionVisualiser is distributed in the hope that it will be useful,                   //
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of                          //
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                           //
+//  GNU General Public License for more details.                                            //
+//                                                                                          //
+// You should have received a copy of the GNU General Public License                        //
+//  along with FractionVisualiser.  If not, see <http://www.gnu.org/licenses/>.             //
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-// Full source repository is at https://github.com/Cheddles/FractionVisualiser
 
 // These values are the ones that can be safely changed without breaking the program. Leave the variable names alone - just change the values
 color shadedFill=color(128,128,255);  // the fill colour (RGB) for shape sections that are "selected" by the fraction
