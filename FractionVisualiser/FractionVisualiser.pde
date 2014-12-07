@@ -108,10 +108,10 @@ void draw(){
   pushMatrix();
     translate(width*0.02,height*0.5);
     rotate(PI*0.5);
-    textSize (height/30);
+    textSize (height/35);
     textAlign(CENTER, CENTER);
     fill(0);
-    text("Suggestions and feedback to Chris.Heddles@asms.sa.edu.au", 0, 0);
+    text("Designed an coded by Chris Heddles (Chris.Heddles@asms.sa.edu.au)", 0, 0);
   popMatrix();
  }
 
