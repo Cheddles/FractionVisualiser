@@ -1,0 +1,39 @@
+body {
+  height:100%;
+  display:flex;
+  justify-content: center;
+}
+
+#viewport {
+  display: flex;
+  width: 80%;
+  height: 100vh;
+}
+
+#numerals, #shapes {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  width: 50vw;
+}
+
+#fraction {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+}
+
+.number-big {
+  height: 80%;
+}
+
+.fraction-bar {
+  height: 10%;
+  width: 70%;
+  background: black;
+}
+
+#shapes {
+  flex-direction: column;
+}
