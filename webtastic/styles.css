@@ -21,7 +21,7 @@ body {
   flex-direction: column;
   align-items: center;
   border: 1px solid black;
-  width: 50vw;
+  width: 50%;
 }
 
 #fraction {
@@ -74,24 +74,33 @@ body {
   width: 100%;
 }
 
-@media (orientation: landscape) and (min-aspect-ratio: 11/5) {
+.shape-container {
+  height: 50%;
+  border: 1px solid black;
+}
+
+@media (orientation: landscape) and (min-aspect-ratio: 16/9) {
   #main {
-    width: 180vh;
+    width: 160vh;
   }
 
-  #numerals, #shapes {
-    width: auto;
-  }
   #numerals {
-    width: 60vh;
+    width: 55vh;
   }
 
   #shapes {
-    width: 120vh;
+    width: 110vh;
   }
 
   .shape-display {
     flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .shape-container {
+    width: 50%;
+    height: 100%;
   }
 }
 
@@ -99,12 +108,12 @@ body {
   #main {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 95vh;
     width: 90vw;
   }
 
   #numerals, #shapes {
-    height: 50vh;
+    height: 50%;
     width: auto;
   }
 
@@ -115,6 +124,12 @@ body {
   .shape-display {
     flex-direction: row;
   }
+
+  .shape-container {
+    width: 50%;
+    height: 100%;
+  }
+
   #numerals {
     order: 2;
     align-items: center;
@@ -137,14 +152,12 @@ body {
 @media (orientation: portrait) and (max-aspect-ratio: 5/11) {
   #main {
     display: flex;
-    height: 100vh;
+    height: 95vh;
     width: 90vw;
     flex-direction: column;
   }
 
-  #numerals, #shapes {
-    height: auto;
-  }
+
   #numerals {
     height: 30vh;
   }
@@ -155,7 +168,12 @@ body {
 
   .shape-display {
     flex-direction: column;
-    height: auto;
+    height: 100%;
+  }
+
+  .shape-container {
+    height: 50%;
+    width: auto;
   }
 
   #fraction {
