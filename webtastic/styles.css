@@ -79,6 +79,9 @@ body {
   border: 1px solid black;
 }
 
+
+
+
 @media (orientation: landscape) and (min-aspect-ratio: 16/9) {
   #main {
     width: 160vh;
