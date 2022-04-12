@@ -67,8 +67,31 @@ body {
 }
 
 .shape-display {
+  display: flex;
+  flex-direction: column;
   height: 80vh;
   width: 100%;
+}
+
+@media (orientation: landscape) and (min-aspect-ratio: 5/2) {
+  #main {
+    width: 180vh;
+  }
+
+  #numerals, #shapes {
+    width: auto;
+  }
+  #numerals {
+    flex-grow: 1;
+  }
+
+  #shapes {
+    flex-grow: 2;
+  }
+
+  .shape-display {
+    flex-direction: row;
+  }
 }
 
 @media (orientation: portrait) {
@@ -97,8 +120,49 @@ body {
     width: 60%;
   }
 
-
   .number-big {
     font-size: 15vh;
+  }
+
+  .shape-display {
+    flex-direction: row;
+  }
+}
+
+@media (orientation: portrait) and (max-aspect-ratio: 2/5) {
+  #main {
+    display: flex;
+    height: 100vh;
+    width: 90vw;
+    flex-direction: column;
+  }
+
+  #numerals, #shapes {
+    height: auto;
+  }
+  #numerals {
+    flex-grow: 1;
+  }
+
+  #shapes {
+    flex-grow: 2;
+  }
+
+  .shape-display {
+    flex-direction: column;
+  }
+
+  #fraction {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .fraction-bar {
+    height: 15vh;
+    width: 5%;
+    margin:2%;
+    min-width: 15px;
+    background: black;
+    transform: rotate(15deg);
   }
 }
