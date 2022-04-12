@@ -7,24 +7,33 @@
   </head>
   <body>
     <div id="viewport">
-      <div id="numerals">
-        <input type="range" name="" value="" />
-        <div id="fraction">
-          <div class="number-big">
-            1
+      <div id="main">
+        <div id="numerals">
+          <input type="range" class="number-selector" value="0" />
+          <div id="fraction">
+            <div class="number-big">
+              <span>1</span>
+            </div>
+            <div class="fraction-bar">
+            </div>
+            <div class="number-big">
+              <span>12</span>
+            </div>
           </div>
-          <div class="fraction-bar">
+          <input type="range" class="number-selector" value="" />
+        </div>
+        <div id="shapes">
+          <div class="shape-selector">
+            <button type="button" name="square">Square</button>
+            <button type="button" name="circle">Circle</button>
           </div>
-          <div class="number-big">
-            12
+          <div class="shape-display"></div>
+          <div class="shape-quantity">
+            <button type="button" name="scatter">Scatter</button>
+            <button type="button" name="addremove">Add/Remove</button>
           </div>
         </div>
-        <input type="range" name="" value="" />
-      </div>
-      <div id="shapes">
-        <div class="shape-selector"></div>
-        <div class="shape-display"></div>
-        <div class="shape-quantity"></div>
+
       </div>
     </div>
 

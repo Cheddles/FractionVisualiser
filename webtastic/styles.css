@@ -1,18 +1,25 @@
 body {
   height:100%;
-  display:flex;
-  justify-content: center;
+  overflow: hidden;
 }
 
 #viewport {
   display: flex;
-  width: 80%;
   height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#main {
+  display: flex;
+  height: 90vh;
+  width: 120vh;
 }
 
 #numerals, #shapes {
   display: flex;
   flex-direction: column;
+  align-items: center;
   border: 1px solid black;
   width: 50vw;
 }
@@ -24,16 +31,74 @@ body {
   align-items: center;
 }
 
+#fraction, .number-selector {
+  width: 90%;
+}
+
+.number-selector {
+  height: 10%;
+}
+
 .number-big {
+  display: flex;
   height: 80%;
+  align-items: center;
+  font-size: 30vh;
 }
 
 .fraction-bar {
-  height: 10%;
+  height: 5%;
   width: 70%;
+  min-height: 5px;
   background: black;
 }
 
 #shapes {
   flex-direction: column;
+  align-items: center;
+}
+
+.shape-selector, .shape-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  height: 10vh;
+}
+
+.shape-display {
+  height: 80vh;
+  width: 100%;
+}
+
+@media (orientation: portrait) {
+  #main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 90vw;
+  }
+
+  #numerals, #shapes {
+    height: 50vh;
+    width: auto;
+  }
+
+  #shapes {
+    order: 1;
+  }
+
+  #numerals {
+    order: 2;
+    align-items: center;
+  }
+
+  #fraction, .number-selector {
+    width: 60%;
+  }
+
+
+  .number-big {
+    font-size: 15vh;
+  }
 }
