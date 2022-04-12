@@ -9,18 +9,18 @@
     <div id="viewport">
       <div id="main">
         <div id="numerals">
-          <input id="numerator" class="number-selector" type="range" value="0" step="1" min="0" max="24" />
+          <input id="numerator-selector" class="number-selector" type="range" value="3" step="1" min="0" max="14"/>
           <div id="fraction">
-            <div class="number-big">
-              <span>24</span>
+            <div id="numerator" class="number-big">
+              <span>3</span>
             </div>
             <div class="fraction-bar">
             </div>
-            <div class="number-big">
-              <span>12</span>
+            <div id="denominator" class="number-big">
+              <span>7</span>
             </div>
           </div>
-          <input id="denominator" class="number-selector" type="range" value="1" step="1" min="1" max="12"/>
+          <input id="denominator-selector" class="number-selector" type="range" value="7" step="1" min="1" max="12"/>
         </div>
         <div id="shapes">
           <div class="shape-selector">
@@ -37,9 +37,10 @@
             <button type="button" name="addremove">+1/-1</button>
           </div>
         </div>
-
       </div>
     </div>
+
+    <script type="text/javascript" src="./app.js"></script>
 
   </body>
 </html>
