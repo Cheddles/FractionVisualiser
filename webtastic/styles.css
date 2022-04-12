@@ -37,6 +37,7 @@ body {
 
 .number-selector {
   height: 10%;
+  min-height: 20px;
 }
 
 .number-big {
@@ -73,7 +74,7 @@ body {
   width: 100%;
 }
 
-@media (orientation: landscape) and (min-aspect-ratio: 5/2) {
+@media (orientation: landscape) and (min-aspect-ratio: 11/5) {
   #main {
     width: 180vh;
   }
@@ -82,11 +83,11 @@ body {
     width: auto;
   }
   #numerals {
-    flex-grow: 1;
+    width: 60vh;
   }
 
   #shapes {
-    flex-grow: 2;
+    width: 120vh;
   }
 
   .shape-display {
@@ -111,6 +112,9 @@ body {
     order: 1;
   }
 
+  .shape-display {
+    flex-direction: row;
+  }
   #numerals {
     order: 2;
     align-items: center;
@@ -120,16 +124,17 @@ body {
     width: 60%;
   }
 
+  .fraction-bar {
+    max-width: 20vh;
+  }
+
   .number-big {
     font-size: 15vh;
   }
 
-  .shape-display {
-    flex-direction: row;
-  }
 }
 
-@media (orientation: portrait) and (max-aspect-ratio: 2/5) {
+@media (orientation: portrait) and (max-aspect-ratio: 5/11) {
   #main {
     display: flex;
     height: 100vh;
@@ -141,15 +146,16 @@ body {
     height: auto;
   }
   #numerals {
-    flex-grow: 1;
+    height: 30vh;
   }
 
   #shapes {
-    flex-grow: 2;
+    height: 70vh;
   }
 
   .shape-display {
     flex-direction: column;
+    height: auto;
   }
 
   #fraction {
@@ -157,12 +163,16 @@ body {
     justify-content: center;
   }
 
+  .number-big {
+    font-size: 12vh;
+  }
+
   .fraction-bar {
-    height: 15vh;
+    height: 13vh;
     width: 5%;
-    margin:2%;
-    min-width: 15px;
+    margin:5%;
+    min-width: 20px;
     background: black;
-    transform: rotate(15deg);
+    transform: rotate(12deg);
   }
 }
