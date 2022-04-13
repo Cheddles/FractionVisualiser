@@ -70,15 +70,38 @@ body {
 .shape-display {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 80vh;
   width: 100%;
 }
 
 .shape-container {
-  height: 50%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   border: 1px solid black;
+  overflow: hidden;
+
 }
 
+.shape {
+  display:flex;
+  align-items: center;
+  /* width: 80%; */
+  height: 80%;
+  /* height: fit-content; */
+}
+
+.shape svg {
+
+  transform: rotate(30deg);
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+
+}
 
 
 
