@@ -77,9 +77,9 @@ body {
 
 .shape-container {
   display:flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 100%;
+  max-height: 50%;
   border: 1px solid black;
   overflow: hidden;
 
@@ -88,9 +88,11 @@ body {
 .shape {
   display:flex;
   align-items: center;
-  /* width: 80%; */
-  height: 80%;
-  /* height: fit-content; */
+  justify-content: center;
+}
+
+.shape.placeholder {
+  visibility: hidden;
 }
 
 .shape svg {
@@ -116,6 +118,7 @@ body {
 
   #shapes {
     width: 110vh;
+    height: 100%;
   }
 
   .shape-display {
@@ -125,6 +128,7 @@ body {
   }
 
   .shape-container {
+    /* flex-direction: column; */
     width: 50%;
     height: 100%;
   }
