@@ -7,7 +7,7 @@ const denominatorSelector = document.getElementById('denominator-selector');
 //Initial values
 const NUMERATOR_INITIAL = 3;
 const DENOMINATOR_INITIAL = 7;
-const SHAPES_INITIAL = 2;
+const SHAPES_INITIAL = 3;
 
 let shapes_current = SHAPES_INITIAL;
 
