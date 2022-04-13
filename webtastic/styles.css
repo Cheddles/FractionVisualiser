@@ -79,7 +79,7 @@ body {
   display:flex;
   justify-content: space-between;
   align-items: center;
-  max-height: 50%;
+  /* max-height: 50%; */
   border: 1px solid black;
   overflow: hidden;
 
