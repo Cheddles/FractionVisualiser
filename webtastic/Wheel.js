@@ -19,31 +19,38 @@ function Wheel (num_sectors = 12, size = 1000, vbSize = 200) {
     let newSector = new Sector();
     this.sectors.push(newSector);
     this.svg.append(newSector.path);
-
   }
 
   this.divisions = num_sectors;
-  this.adjustDivisions(this.divisions);
+  this.adjustDivisions(num_sectors);
 }
 
 Wheel.prototype.adjustDivisions = function (divisions) {
   //change rotations for all active sectors, and adjust their sizes (circle mode)
-  if (divisions != this.divisions) {
-    for (let i = 0, l = this.sectors.length; i < l; i++) {
-      let thisSector = this.sectors[i];
-      thisSector.adjustSize(divisions);
-      if(i >= divisions) {
-        thisSector.active = false;
-        thisSector.path.setAttribute('class', '');
-      } else {
-        thisSector.active = true;
-        thisSector.path.setAttribute('class', 'active');
-      }
+  for (let i = 0, l = this.sectors.length; i < l; i++) {
+    let thisSector = this.sectors[i];
+    thisSector.adjustSize(divisions);
+    if(i >= divisions) {
+      thisSector.active = false;
+      thisSector.filled = false;
+    } else {
+      thisSector.active = true;
     }
-    this.divisions = divisions;
   }
+  this.divisions = divisions;
+
   //change positions for all active sectors, and adjust their widths (square mode)
-  //change rotations/positions, and visibilities for all sector dividers ('spokes')
+}
+
+Wheel.prototype.fillSectors = function (num_sectors) {
+  for (let i = 0, l = this.sectors.length; i < l; i++) {
+    let thisSector = this.sectors[i];
+    if(i < num_sectors) {
+      thisSector.filled = true;
+    } else {
+      thisSector.filled = false;
+    }
+  }
 }
 
 
@@ -56,5 +63,6 @@ Wheel.prototype.draw = function () {
       thisSector.path.style.transform = `rotateZ(${sectorCount*thisSector.angle}deg)`;
       sectorCount++;
     }
+    thisSector.draw();
   }
 }

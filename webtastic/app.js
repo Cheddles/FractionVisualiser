@@ -6,17 +6,27 @@ const denominatorSelector = document.getElementById('denominator-selector');
 
 const viewboxSize = 200;
 
+let wheelie = new Wheel;
+wheelie.sectors[3].filled = true;
+wheelie.sectors[3].active = true;
+wheelie.sectors[8].filled = true;
+wheelie.sectors[8].active = true;
+
 denominatorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
   setSliderMaximum(numeratorSelector, shapes_current*value);
   setBigNumber(denominator, value);
   //also update the visuals!
+  wheelie.adjustDivisions(value);
+  wheelie.draw();
 });
 
 numeratorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
   setBigNumber(numerator, value);
   //also update the visuals!
+  wheelie.fillSectors(value);
+  wheelie.draw();
 });
 
 //Initial values
@@ -98,20 +108,25 @@ function generateSectorMarkup(angle) {
   let largeArc = angle < 180 ? 0 : 1;
 
   let d = `
-    M ${startCoords.x} ${startCoords.y}
-    A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
-    L ${viewboxSize/2} ${viewboxSize/2} Z
+  M ${startCoords.x} ${startCoords.y}
+  A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
+  L ${viewboxSize/2} ${viewboxSize/2} Z
   `;
+
+  if (thisAngle == 0) {
+    let middleCoords = findCoordsFromAngle(180);
+    d = `
+      M ${startCoords.x} ${startCoords.y}
+      A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${middleCoords.x} ${middleCoords.y}
+      A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
+    `;
+  }
 
   return d;
 
 }
 
-let wheelie = new Wheel;
-wheelie.sectors[3].filled = true;
-wheelie.sectors[3].active = true;
-wheelie.sectors[8].filled = true;
-wheelie.sectors[8].active = true;
+
 
 document.getElementsByClassName('shape-container')[0].appendChild(wheelie.element);
 
