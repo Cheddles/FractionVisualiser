@@ -97,24 +97,21 @@ function generateSectorMarkup(angle) {
   let endCoords = findCoordsFromAngle(angle);
   let largeArc = angle < 180 ? 0 : 1;
 
-  console.log(largeArc);
-  console.log(thisAngle);
-  console.log(startCoords);
-  console.log(endCoords);
-
   let d = `
     M ${startCoords.x} ${startCoords.y}
     A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
     L ${viewboxSize/2} ${viewboxSize/2} Z
   `;
 
-  let newSector = document.createElementNS("http://www.w3.org/2000/svg",'path');
+  let newSector = document.createElementNS('http://www.w3.org/2000/svg','path');
   newSector.setAttribute('transform-origin',`${(viewboxSize /2)}px ${(viewboxSize /2)}px`);
   newSector.setAttribute('d', d);
 
+  return
   document.getElementsByClassName('shape')[0].children[0].appendChild(newSector); //temporary - just for testing.
 }
 
+let wheelie = new Wheel;
 generateSectorMarkup(360/denominator_current);
 //TODO: create sectors with no stroke. Instead, generate 'spokes' during this process
 //otherwise strokes of each sector overlap messily.
@@ -123,7 +120,20 @@ generateSectorMarkup(360/denominator_current);
 //any dormant sectors. Same deal with the 'spokes'
 
 
-function Wheel (num_sectors = 12) {
+function Wheel (num_sectors = 12, size = 100, vbSize = 100) {
+
+  //create DOM presence
+  this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  this.svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  this.svg.setAttribute('width', `${size}`);
+  this.svg.setAttribute('height', `${size}`);
+  this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
+
+
+  this.element = document.createElement('div');
+  this.element.classList.add('shape');
+  this.element.appendChild(this.svg);
+
   this.sectors = [];
   for (let i = 0; i < num_sectors; i++) {
       let newSector = new Sector();
@@ -140,11 +150,18 @@ Wheel.prototype.adjustDivisions = function () {
   //change rotations/positions, and visibilities for all sector dividers ('spokes')
 }
 
-function Sector () {
+function Sector (vbSize = 100) {
+  //establish DOM presence
+  this.path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  this.path.setAttribute('transform-origin',`${(vbSize /2)}px ${(vbSize /2)}px`);
+
+
   //track state
 }
 
-Sector.prototype.adjustSize = function (){
+Sector.prototype.adjustSize = function (divisions) {
   //change angular width of a sector (for circle mode) and generate markup
+  this.angle = 360/divisions;
+  this.markup = generateSectorMarkup(this.angle);
   //change width of sector (for square mode) and generate markup
 }
