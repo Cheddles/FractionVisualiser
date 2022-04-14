@@ -108,20 +108,18 @@ function generateSectorMarkup(angle) {
 }
 
 let wheelie = new Wheel;
-wheelie.sectors[3].required = true;
+wheelie.sectors[3].filled = true;
 wheelie.sectors[3].active = true;
-wheelie.sectors[8].required = true;
+wheelie.sectors[8].filled = true;
 wheelie.sectors[8].active = true;
 
 document.getElementsByClassName('shape-container')[0].appendChild(wheelie.element);
 
 generateSectorMarkup(360/denominator_current);
-//TODO: create sectors with no stroke. Instead, generate 'spokes' during this process
-//otherwise strokes of each sector overlap messily.
+
 //TODO: on creation of a SHAPE, generate enough sectors to cover the full gamut of denominators
 //then, as this parameter is adjusted, recalculate the end coords for each sector, and hide
-//any dormant sectors. Same deal with the 'spokes'
-
+//any dormant sectors.
 
 function Wheel (num_sectors = 12, size = 1000, vbSize = 200) {
 
@@ -137,21 +135,35 @@ function Wheel (num_sectors = 12, size = 1000, vbSize = 200) {
   this.element.classList.add('shape');
   this.element.appendChild(this.svg);
 
+
   //needs own collection of sectors (up to max-denominator value)
-  //needs own list of 'spokes' (up to max-denominator value)
   this.sectors = [];
   this.spokes = [];
   for (let i = 0; i < num_sectors; i++) {
-      let newSector = new Sector();
-      this.sectors.push(newSector);
-      if(i < num_sectors - 1) {
-        this.spokes.push('spokane');
-      }
+    let newSector = new Sector();
+    this.sectors.push(newSector);
+    if(i < num_sectors - 1) {
+      this.spokes.push('spokane');
     }
+  }
+
+  this.divisions = num_sectors;
 }
 
-Wheel.prototype.adjustDivisions = function () {
+Wheel.prototype.adjustDivisions = function (divisions) {
   //change rotations for all active sectors, and adjust their sizes (circle mode)
+  if (divisions != this.divisions) {
+    for (let i = 0, l = this.sectors.length; i < l; i++) {
+      let thisSector = this.sectors[i];
+      thisSector.adjustSize(divisions);
+      if(i >= divisions) {
+        thisSector.active = false;
+      } else {
+        thisSector.active = true;
+      }
+    }
+    this.divisions = divisions;
+  }
   //change positions for all active sectors, and adjust their widths (square mode)
   //change rotations/positions, and visibilities for all sector dividers ('spokes')
 }
@@ -165,10 +177,9 @@ Wheel.prototype.draw = function () {
   let sectorCount = 0;
   for (let i = 0, l = this.sectors.length; i < l; i++) {
     let thisSector = this.sectors[i];
-    thisSector.adjustSize(12);
-    if (thisSector.required) {
+    thisSector.adjustSize(this.divisions);
+    if (thisSector.active) {
       thisSector.path.style.transform = `rotateZ(${sectorCount*thisSector.angle}deg)`;
-      // thisSector.path.setAttribute('transform', `rotate(${sectorCount*thisSector.angle}, 0 0)`);
       this.svg.append(thisSector.path);
       sectorCount++;
     }
@@ -182,7 +193,7 @@ function Sector (vbSize = 200) {
 
   //track state
   this.active = false;
-  this.required = false;
+  this.filled = false;
 }
 
 Sector.prototype.adjustSize = function (divisions) {

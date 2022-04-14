@@ -4,6 +4,7 @@
 path {
   fill: green;
   stroke: black;
+  stroke-linejoin: bevel;
 }
 
 #numerals, #shapes {
