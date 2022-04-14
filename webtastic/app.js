@@ -103,15 +103,18 @@ function generateSectorMarkup(angle) {
     L ${viewboxSize/2} ${viewboxSize/2} Z
   `;
 
-  let newSector = document.createElementNS('http://www.w3.org/2000/svg','path');
-  newSector.setAttribute('transform-origin',`${(viewboxSize /2)}px ${(viewboxSize /2)}px`);
-  newSector.setAttribute('d', d);
+  return d;
 
-  return
-  document.getElementsByClassName('shape')[0].children[0].appendChild(newSector); //temporary - just for testing.
 }
 
 let wheelie = new Wheel;
+wheelie.sectors[3].required = true;
+wheelie.sectors[3].active = true;
+wheelie.sectors[8].required = true;
+wheelie.sectors[8].active = true;
+
+document.getElementsByClassName('shape-container')[0].appendChild(wheelie.element);
+
 generateSectorMarkup(360/denominator_current);
 //TODO: create sectors with no stroke. Instead, generate 'spokes' during this process
 //otherwise strokes of each sector overlap messily.
@@ -120,7 +123,7 @@ generateSectorMarkup(360/denominator_current);
 //any dormant sectors. Same deal with the 'spokes'
 
 
-function Wheel (num_sectors = 12, size = 100, vbSize = 100) {
+function Wheel (num_sectors = 12, size = 1000, vbSize = 200) {
 
   //create DOM presence
   this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -129,19 +132,22 @@ function Wheel (num_sectors = 12, size = 100, vbSize = 100) {
   this.svg.setAttribute('height', `${size}`);
   this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
 
-
+  //associated 'shape' element in DOM
   this.element = document.createElement('div');
   this.element.classList.add('shape');
   this.element.appendChild(this.svg);
 
+  //needs own collection of sectors (up to max-denominator value)
+  //needs own list of 'spokes' (up to max-denominator value)
   this.sectors = [];
+  this.spokes = [];
   for (let i = 0; i < num_sectors; i++) {
       let newSector = new Sector();
       this.sectors.push(newSector);
-  }
-  //needs own collection of sectors (up to max-denominator value)
-  //list of 'spokes'
-  //associated 'shape' element in DOM
+      if(i < num_sectors - 1) {
+        this.spokes.push('spokane');
+      }
+    }
 }
 
 Wheel.prototype.adjustDivisions = function () {
@@ -150,18 +156,39 @@ Wheel.prototype.adjustDivisions = function () {
   //change rotations/positions, and visibilities for all sector dividers ('spokes')
 }
 
-function Sector (vbSize = 100) {
+Wheel.prototype.generateSpoke = function () {
+
+}
+
+Wheel.prototype.draw = function () {
+  //draw all required sectors, setting css transforms as required
+  let sectorCount = 0;
+  for (let i = 0, l = this.sectors.length; i < l; i++) {
+    let thisSector = this.sectors[i];
+    thisSector.adjustSize(12);
+    if (thisSector.required) {
+      thisSector.path.style.transform = `rotateZ(${sectorCount*thisSector.angle}deg)`;
+      // thisSector.path.setAttribute('transform', `rotate(${sectorCount*thisSector.angle}, 0 0)`);
+      this.svg.append(thisSector.path);
+      sectorCount++;
+    }
+  }
+}
+
+function Sector (vbSize = 200) {
   //establish DOM presence
   this.path = document.createElementNS('http://www.w3.org/2000/svg','path');
   this.path.setAttribute('transform-origin',`${(vbSize /2)}px ${(vbSize /2)}px`);
 
-
   //track state
+  this.active = false;
+  this.required = false;
 }
 
 Sector.prototype.adjustSize = function (divisions) {
   //change angular width of a sector (for circle mode) and generate markup
   this.angle = 360/divisions;
-  this.markup = generateSectorMarkup(this.angle);
+  let d = generateSectorMarkup(this.angle);
+  this.path.setAttribute('d', d);
   //change width of sector (for square mode) and generate markup
 }
