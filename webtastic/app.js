@@ -110,10 +110,10 @@ function generateSectorMarkup(angle) {
   `;
 
   let newSector = document.createElementNS("http://www.w3.org/2000/svg",'path');
-  newSector.setAttribute('transform-origin','100px 100px');
+  newSector.setAttribute('transform-origin',`${(viewboxSize /2)}px ${(viewboxSize /2)}px`);
   newSector.setAttribute('d', d);
 
-  document.getElementsByClassName('shape')[0].children[0].appendChild(newSector);
+  document.getElementsByClassName('shape')[0].children[0].appendChild(newSector); //temporary - just for testing.
 }
 
 generateSectorMarkup(360/denominator_current);
