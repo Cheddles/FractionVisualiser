@@ -144,7 +144,7 @@ function Sector () {
   //track state
 }
 
-Sector.prototype.adjustSize() {
+Sector.prototype.adjustSize = function (){
   //change angular width of a sector (for circle mode) and generate markup
   //change width of sector (for square mode) and generate markup
 }
