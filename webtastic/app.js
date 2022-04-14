@@ -7,10 +7,7 @@ const denominatorSelector = document.getElementById('denominator-selector');
 const viewboxSize = 200;
 
 let wheelie = new Wheel;
-wheelie.sectors[3].filled = true;
-wheelie.sectors[3].active = true;
-wheelie.sectors[8].filled = true;
-wheelie.sectors[8].active = true;
+
 
 denominatorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
@@ -88,11 +85,8 @@ function changeMaxShapes (value) {
   setSliderMaximum(numeratorSelector, shapes_current*denominator_max);
 }
 
-//dynamically generate svg representations of the fractions
 
-//work out the required coordinates for the endpoints of a sector
-//basically do this once to generate a sector of the right shape,
-//then use CSS rotation to send it to the right location.
+
 function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
   let angle_rad = (2*Math.PI/360)*angle;
   let x = centre.x + radius*Math.cos(angle_rad);
@@ -101,37 +95,10 @@ function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: v
 }
 
 
-function generateSectorMarkup(angle) {
-  let thisAngle = angle%360;
-  let startCoords = findCoordsFromAngle(0);
-  let endCoords = findCoordsFromAngle(angle);
-  let largeArc = angle < 180 ? 0 : 1;
 
-  let d = `
-  M ${startCoords.x} ${startCoords.y}
-  A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
-  L ${viewboxSize/2} ${viewboxSize/2} Z
-  `;
-
-  if (thisAngle == 0) {
-    let middleCoords = findCoordsFromAngle(180);
-    d = `
-      M ${startCoords.x} ${startCoords.y}
-      A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${middleCoords.x} ${middleCoords.y}
-      A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
-    `;
-  }
-
-  return d;
-
-}
 
 
 
 document.getElementsByClassName('shape-container')[0].appendChild(wheelie.element);
 
-generateSectorMarkup(360/denominator_current);
-
-//TODO: on creation of a SHAPE, generate enough sectors to cover the full gamut of denominators
-//then, as this parameter is adjusted, recalculate the end coords for each sector, and hide
-//any dormant sectors.
+// generateSectorMarkup(360/denominator_current);
