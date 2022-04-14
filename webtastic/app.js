@@ -123,24 +123,28 @@ generateSectorMarkup(360/denominator_current);
 //any dormant sectors. Same deal with the 'spokes'
 
 
-function adjustSize () { //this should be a 'method' of the sector itself
-  //change angular width of a sector (for circle mode) and generate markup
-  //change width of sector (for square mode) and generate markup
+function Wheel (num_sectors = 12) {
+  this.sectors = [];
+  for (let i = 0; i < num_sectors; i++) {
+      let newSector = new Sector();
+      this.sectors.push(newSector);
+  }
+  //needs own collection of sectors (up to max-denominator value)
+  //list of 'spokes'
+  //associated 'shape' element in DOM
 }
 
-function adjustSectorSize () { //this should be a 'method' of the shape itself
+Wheel.prototype.adjustDivisions = function () {
   //change rotations for all active sectors, and adjust their sizes (circle mode)
   //change positions for all active sectors, and adjust their widths (square mode)
   //change rotations/positions, and visibilities for all sector dividers ('spokes')
 }
 
-function Wheel () {
-  //needs own list of sectors
-  //list of 'spokes'
-  //associated 'shape' element in DOM
-}
-
 function Sector () {
   //track state
+}
 
+Sector.prototype.adjustSize() {
+  //change angular width of a sector (for circle mode) and generate markup
+  //change width of sector (for square mode) and generate markup
 }
