@@ -2,9 +2,14 @@
 /* Most layout changes here will be overridden by styles.css             */
 
 path {
-  fill: green;
-  stroke: black;
+  fill: none;
+  stroke: none;
   stroke-linejoin: bevel;
+}
+
+.active {
+  /* display: initial; */
+  stroke: black;
 }
 
 #numerals, #shapes {
