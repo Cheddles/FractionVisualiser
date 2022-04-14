@@ -1,4 +1,27 @@
+/* This is to be mostly for setting properties that don't affect layout. */
+/* Most layout changes here will be overridden by styles.css             */
+
 path {
   fill: green;
-  /* stroke: black; */
+  stroke: black;
+}
+
+#numerals, #shapes {
+  border: 1px solid black;
+}
+
+.number-big {
+  font-family: serif;
+}
+
+.fraction-bar {
+  background: black;
+}
+
+.shape-container {
+  border: 1px solid black;
+}
+
+.shape svg {
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
 }
