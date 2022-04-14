@@ -112,8 +112,6 @@ function generateSectorMarkup(angle) {
   let newSector = document.createElementNS("http://www.w3.org/2000/svg",'path');
   newSector.setAttribute('transform-origin','100px 100px');
   newSector.setAttribute('d', d);
-  newSector.setAttribute('fill', 'none');
-  newSector.setAttribute('stroke', 'black');
 
   document.getElementsByClassName('shape')[0].children[0].appendChild(newSector);
 }
@@ -124,6 +122,18 @@ generateSectorMarkup(360/denominator_current);
 //TODO: on creation of a SHAPE, generate enough sectors to cover the full gamut of denominators
 //then, as this parameter is adjusted, recalculate the end coords for each sector, and hide
 //any dormant sectors. Same deal with the 'spokes'
+
+
+function adjustSize () { //this should be a 'method' of the sector itself
+  //change angular width of a sector (for circle mode) and generate markup
+  //change width of sector (for square mode) and generate markup
+}
+
+function adjustSectorSize () { //this should be a 'method' of the shape itself
+  //change rotations for all active sectors, and adjust their sizes (circle mode)
+  //change positions for all active sectors, and adjust their widths (square mode)
+  //change rotations/positions, and visibilities for all sector dividers ('spokes')
+}
 
 
 //each segment should be addressable separately, having an existence
