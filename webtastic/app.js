@@ -82,12 +82,11 @@ function changeMaxShapes (value) {
 
 //work out the required coordinates for the endpoints of a sector
 //basically do this once to generate a sector of the right shape,
-//then use rotation to send it to the right location.
+//then use CSS rotation to send it to the right location.
 function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
   let angle_rad = (2*Math.PI/360)*angle;
   let x = centre.x + radius*Math.cos(angle_rad);
   let y = centre.y + radius*Math.sin(angle_rad);
-
   return {x, y}
 }
 
@@ -135,8 +134,13 @@ function adjustSectorSize () { //this should be a 'method' of the shape itself
   //change rotations/positions, and visibilities for all sector dividers ('spokes')
 }
 
+function Wheel () {
+  //needs own list of sectors
+  //list of 'spokes'
+  //associated 'shape' element in DOM
+}
 
-//each segment should be addressable separately, having an existence
-//separate from its visual representation
-//the state of the segments will be tracked e.g. active/inactive (coloured-in in the current fraction)
-//required/not-required (there is no need for this segment in this fraction)
+function Sector () {
+  //track state
+
+}
