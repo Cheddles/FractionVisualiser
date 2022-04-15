@@ -219,7 +219,7 @@ body {
     height: 13vh;
     width: 5%;
     margin:5%;
-    min-width: 20px;
+    min-width: 5px;
     background: black;
     transform: rotate(12deg);
   }
