@@ -1,42 +1,84 @@
-const SHAPES_MAX = 4;
+const SHAPES_MAX = 12;
 const DENOMINATOR_MAX = 12;
 const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
 const numeratorSelector = document.getElementById('numerator-selector');
 const denominatorSelector = document.getElementById('denominator-selector');
 const addRemove = document.getElementById('addremove');
-
+let increasing = true;
 
 const viewboxSize = 200;
+const wheels = [];
 
-let wheelie = new Wheel;
+const num_containers = SHAPES_MAX/2;
+
+let shapeDisplay = document.getElementsByClassName('shape-display')[0];
+for (i = 0; i < num_containers; i++) {
+  let sc = document.createElement('div');
+  sc.classList.add('shape-container');
+  shapeDisplay.appendChild(sc);
+}
+
+//need to hide any shape containers not in use!
+
+
+for (let i = 0; i < SHAPES_MAX; i++) {
+  //generate Wheels and append to alternating shape-containers
+  let containerIndex = i%num_containers;
+  let wheel = new Wheel;
+  document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+  wheels.push(wheel);
+}
+
+
 
 
 denominatorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
+  denominator_current = value;
   setSliderMaximum(numeratorSelector, shapes_current*value);
   setBigNumber(denominator, value);
   //also update the visuals!
-  wheelie.adjustDivisions(value);
-  wheelie.draw();
+  for (let i = 0, l = wheels.length; i < l; i++) {
+    let wheelie = wheels[i];
+    wheelie.adjustDivisions(value);
+    wheelie.draw();
+  }
 });
 
 numeratorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
   setBigNumber(numerator, value);
+  // numerator_current = value;
   //also update the visuals!
-  wheelie.fillSectors(value);
-  wheelie.draw();
+  for (let i = 0, l = wheels.length; i < l; i++) {
+    let wheelie = wheels[i];
+    let fillValue = value - i*denominator_current;
+    if(fillValue < 0) {fillValue = 0;}
+    else if (fillValue >= denominator_current) {fillValue = denominator_current;}
+    wheelie.fillSectors(fillValue);
+    wheelie.draw();
+  }
 });
 
 
 addRemove.addEventListener('click', function () {
-  if (shapes_current < SHAPES_MAX) {
+            console.log(shapes_current, increasing);
+  if (shapes_current < SHAPES_MAX && increasing) {
     shapes_current++;
+    if (shapes_current >= SHAPES_MAX) {
+      increasing = !increasing;
+    }
+  } else if (shapes_current > 1 && !increasing) {
+    shapes_current--;
+    if (shapes_current <= 1) {
+      increasing = !increasing;
+    }
   }
-
+  //shift wheels to different containers for best display
+  reassignWheels();
   //change visibility state on new shape
-
+  hideWheels();
   //set the numerator slider maximum
   setSliderMaximum(numeratorSelector, shapes_current*parseInt(denominatorSelector.value));
 });
@@ -49,11 +91,12 @@ const SHAPES_INITIAL = 1;
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
 let denominator_current = DENOMINATOR_INITIAL;
+hideWheels();
 
 updateSliderValue(denominatorSelector, DENOMINATOR_INITIAL);
 updateSliderValue(numeratorSelector, NUMERATOR_INITIAL);
 
-
+reassignWheels();
 
 function updateSliderValue (slider, value) {
   slider.value = `${value}`;
@@ -80,9 +123,9 @@ function setSliderMaximum (slider, max) {
     if (currentValue > newMax) {
       slider.value = `${newMax}`;
       slider.setAttribute('value', `${newMax}`);
-      let sliderInput = new Event('input', {bubbles: true, cancelable: true});
-      slider.dispatchEvent(sliderInput);
     }
+    let sliderInput = new Event('input', {bubbles: true, cancelable: true});
+    slider.dispatchEvent(sliderInput);
   }
 }
 
@@ -100,6 +143,43 @@ function changeMaxShapes (value) {
   setSliderMaximum(numeratorSelector, shapes_current*denominator_max);
 }
 
+function hideWheels () {
+  for (let i = 0; i < wheels.length; i++) {
+    if (i < shapes_current) {
+      wheels[i].element.classList.remove('hide');
+    } else {
+      wheels[i].element.classList.add('hide');
+    }
+  }
+}
+
+function reassignWheels () {
+  //remove existing wheel elements from shape-containers
+  let shapeContainers = document.getElementsByClassName('shape-container');
+  for (let i = 0, l = shapeContainers.length; i < l; i++) {
+    let sc = shapeContainers[i];
+    while (sc.firstChild) {
+      sc.removeChild(sc.firstChild);
+    }
+  }
+
+  let num_wheels = wheels.length;
+  if (shapes_current < 3) {
+    for (let i = 0; i < num_wheels; i++) {
+      let wheel = wheels[i];
+      let containerIndex = i%2;
+      document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+    }
+  } else {
+    for (let i = 0, sc = 0; i < num_wheels; i++) {
+      let wheel = wheels[i];
+      let idx = i%2;
+      let containerIndex = sc;
+      sc += idx;
+      document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+    }
+  }
+}
 
 
 function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
@@ -108,12 +188,3 @@ function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: v
   let y = centre.y + radius*Math.sin(angle_rad);
   return {x, y}
 }
-
-
-
-
-
-
-document.getElementsByClassName('shape-container')[0].appendChild(wheelie.element);
-
-// generateSectorMarkup(360/denominator_current);
