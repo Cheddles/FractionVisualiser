@@ -1,4 +1,5 @@
 const SHAPES_MAX = 4;
+const DENOMINATOR_MAX = 12;
 const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
 const numeratorSelector = document.getElementById('numerator-selector');
