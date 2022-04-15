@@ -37,7 +37,7 @@ addRemove.addEventListener('click', function () {
   //change visibility state on new shape
 
   //set the numerator slider maximum
-  setSliderMaximum(numeratorSelector, shapes_current*parseInt(numeratorSelector.getAttribute('max')));
+  setSliderMaximum(numeratorSelector, shapes_current*parseInt(denominatorSelector.value));
 });
 
 //Initial values
