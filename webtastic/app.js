@@ -20,7 +20,9 @@ for (i = 0; i < num_containers; i++) {
 }
 
 //need to hide any shape containers not in use!
-
+//also: fill order is a bit weird for landscape 16:9 and portrait.
+//if there are 2 shapes it's fine...left then right
+//if there are more, it goes LT LB MT MB RT RB when it should go LT MT RT LB MB RB
 
 for (let i = 0; i < SHAPES_MAX; i++) {
   //generate Wheels and append to alternating shape-containers
@@ -63,7 +65,6 @@ numeratorSelector.addEventListener('input', function (event) {
 
 
 addRemove.addEventListener('click', function () {
-            console.log(shapes_current, increasing);
   if (shapes_current < SHAPES_MAX && increasing) {
     shapes_current++;
     if (shapes_current >= SHAPES_MAX) {
@@ -170,7 +171,7 @@ function reassignWheels () {
       let containerIndex = i%2;
       document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
     }
-  } else {
+  } else { //this doesn't work too well in landscape 16:9 and portrait...need ANOTHER distribution for this.
     for (let i = 0, sc = 0; i < num_wheels; i++) {
       let wheel = wheels[i];
       let idx = i%2;
