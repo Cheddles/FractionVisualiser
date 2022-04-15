@@ -3,6 +3,8 @@ const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
 const numeratorSelector = document.getElementById('numerator-selector');
 const denominatorSelector = document.getElementById('denominator-selector');
+const addRemove = document.getElementById('addremove');
+
 
 const viewboxSize = 200;
 
@@ -24,6 +26,18 @@ numeratorSelector.addEventListener('input', function (event) {
   //also update the visuals!
   wheelie.fillSectors(value);
   wheelie.draw();
+});
+
+
+addRemove.addEventListener('click', function () {
+  if (shapes_current < SHAPES_MAX) {
+    shapes_current++;
+  }
+
+  //change visibility state on new shape
+
+  //set the numerator slider maximum
+  setSliderMaximum(numeratorSelector, shapes_current*parseInt(numeratorSelector.getAttribute('max')));
 });
 
 //Initial values

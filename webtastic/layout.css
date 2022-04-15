@@ -95,7 +95,6 @@ body {
 
 .shape svg {
   display: initial;
-  transform: rotate(30deg);
   height: 100%;
   width: 100%;
   border-radius: 50%;
