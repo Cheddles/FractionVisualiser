@@ -117,20 +117,14 @@ body {
   .shape-display {
     flex-direction: row;
     align-items: center;
-    /* justify-content: center; */
   }
 
   .shape-container {
-    /* flex-direction: column; */
-    /* width: 50%; */
     height: 100%;
-    /* width: 50%; */
-
   }
 
   .shape {
     height: 100%;
-    /* width: 100%; */
   }
 }
 
