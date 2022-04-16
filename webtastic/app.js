@@ -138,16 +138,6 @@ function setBigNumber (position, value) {
   position.getElementsByTagName('span')[0].innerText = value;
 }
 
-// function changeMaxShapes (value) {
-//   //update shapes_current if needed
-//
-//   shapes_current = Math.round(value);
-//   if(shapes_current < 1) {shapes_current = 1;}
-//
-//   //update maximum value of numerator
-//   let denominator_max = parseInt(denominatorSelector.value);
-//   setSliderMaximum(numeratorSelector, shapes_current*denominator_max);
-// }
 
 function hideWheels () {
   for (let i = 0; i < wheels.length; i++) {
@@ -229,42 +219,17 @@ function reassignWheels () {
     }
   }
 
-  // if(wide) {
-  //   if(shapes_current == 1) {
-  //     squareWheelsToWidth();
-  //     squareWheelsToHeight();
-  //   } else if (shapes_current == shapeContainersInUse) {
-  //     squareWheelsToWidth(shapeContainersInUse);
-  //     // squareWheelsToHeight();
-  //
-  //   }
-  //   if(shapes_current > shapeContainersInUse) {
-  //     squareWheelsToHeight();
-  //     squareWheelsToWidth(shapeContainersInUse);
-  //   }
-  // } else {
-  //   if(shapes_current == 1) {
-  //     squareWheelsToHeight(1);
-  //     squareWheelsToWidth(1);
-  //   }
-  //   else if(shapes_current == 2) {
-  //     squareWheelsToHeight(2);
-  //   } else if (shapes_current > 2) {
-  //     //if the fractional width is more than the height of the container, then set by height
-  //     //otherwise, set by width
-  //     console.log(parseInt(shapeContainers[0].clientWidth/2), parseInt(shapeContainers[0].parentNode.clientHeight/shapeContainersInUse));
-  //     if(parseInt(shapeContainers[0].clientWidth/2)  > parseInt(shapeContainers[0].parentNode.clientHeight/shapeContainersInUse)) {
-  //       console.log('must use height as reference first');
-  //       // squareWheelsToWidth(2);
-  //       squareWheelsToHeight(shapeContainersInUse);
-  //     } else {
-  //       console.log('hooray!');
-  //       squareWheelsToHeight(shapeContainersInUse);
-  //       squareWheelsToWidth(2);
-  //     }
-  //
-  //   }
-  // }
+  if (wide) {
+
+  } else {
+    //in not-widescreen, the order of resizing of the svg is like this:
+    //1 shape: use width 100%;
+    //2 shapes (over-under): use height 50%;
+    //3 shapes (side-by-side and over-under): depends on the aspect ratio.
+    //
+  }
+
+
 }
 
 function handleResize(event) {

@@ -1,10 +1,10 @@
-function Wheel (num_sectors = 12, size = 100, vbSize = 200) {
+function Wheel (num_sectors = 12, size = '100%', vbSize = 200) {
 
   //create DOM presence
   this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   this.svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   this.svg.setAttribute('width', `${size}`);
-  this.svg.setAttribute('height', `${size}`);
+  // this.svg.setAttribute('height', `${size}`);
   this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
 
   //associated 'shape' element in DOM
