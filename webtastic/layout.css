@@ -12,6 +12,10 @@ body {
   overflow: hidden;
 }
 
+.hide {
+  display: none;
+}
+
 #viewport {
   height: 100vh;
   justify-content: center;

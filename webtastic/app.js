@@ -16,6 +16,7 @@ let shapeDisplay = document.getElementsByClassName('shape-display')[0];
 for (i = 0; i < num_containers; i++) {
   let sc = document.createElement('div');
   sc.classList.add('shape-container');
+  if (i > 0) {sc.classList.add('hide');}
   shapeDisplay.appendChild(sc);
 }
 
@@ -78,7 +79,7 @@ addRemove.addEventListener('click', function () {
   }
   //shift wheels to different containers for best display
   reassignWheels();
-  //change visibility state on new shape
+  //change visibility state on new shape and shape-containers
   hideWheels();
   //set the numerator slider maximum
   setSliderMaximum(numeratorSelector, shapes_current*parseInt(denominatorSelector.value));
@@ -166,10 +167,20 @@ function reassignWheels () {
 
   let num_wheels = wheels.length;
   if (shapes_current < 3) {
-    for (let i = 0; i < num_wheels; i++) {
+    for (let i = 0; i < shapes_current; i++) {
       let wheel = wheels[i];
       let containerIndex = i%2;
-      document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+      if(i < 3) {shapeContainers[containerIndex].appendChild(wheel.element)};
+      if(shapes_current < 2) {
+        shapeContainers[1].classList.add('hide');
+      } else {
+        shapeContainers[1].classList.remove('hide');
+      }
+      if(containerIndex > 1) {
+        shapeContainers[containerIndex].classList.add('hide');
+      } else {
+        shapeContainers[containerIndex].classList.remove('hide');
+      }
     }
   } else { //this doesn't work too well in landscape 16:9 and portrait...need ANOTHER distribution for this.
     for (let i = 0, sc = 0; i < num_wheels; i++) {
@@ -177,7 +188,12 @@ function reassignWheels () {
       let idx = i%2;
       let containerIndex = sc;
       sc += idx;
-      document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+      shapeContainers[containerIndex].appendChild(wheel.element);
+      if(i >= shapes_current) {
+        if(idx == 0) {shapeContainers[containerIndex].classList.add('hide');}
+      } else {
+        shapeContainers[containerIndex].classList.remove('hide');
+      }
     }
   }
 }
