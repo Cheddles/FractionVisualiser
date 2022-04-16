@@ -33,6 +33,7 @@ wideQuery.addListener(handleResize);
 let wide = false;
 
 
+
 denominatorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
   denominator_current = value;
@@ -219,14 +220,90 @@ function reassignWheels () {
     }
   }
 
+  let widthTarget = '100%';
+  let heightTarget = '100%';
+
+  let displayWidth = document.getElementsByClassName('shape-container')[0].parentNode.clientWidth;
+  let displayHeight = document.getElementsByClassName('shape-container')[0].parentNode.clientHeight;
+
   if (wide) {
+    //in widescreen, the order of resizing of the svg is like this:
+    //1 shape: use height 100%;
+    if (shapes_current == 1) {
+      heightTarget = displayHeight;
+      widthTarget = displayWidth;
+
+      if(widthTarget > heightTarget) {
+        widthTarget = 'none';
+      } else {
+        heightTarget = 'none';
+      }
+    }
+    //2 shapes (side-by-side): use width 50%;
+    if (shapes_current == 2) {
+      widthTarget = "100%";
+      heightTarget = '100%';
+
+      if(widthTarget > heightTarget) {
+        widthTarget = 'none';
+      } else {
+        heightTarget = 'none';
+      }
+    }
+    //3 shapes (side-by-side and over-under): depends on the aspect ratio.
+    if (shapes_current > 2) {
+      heightTarget = displayHeight/2;
+      widthTarget = displayWidth/(shapeContainersInUse);
+
+      if(widthTarget > heightTarget) {
+        widthTarget = 'none';
+      } else {
+        heightTarget = 'none';
+      }
+    }
 
   } else {
     //in not-widescreen, the order of resizing of the svg is like this:
     //1 shape: use width 100%;
+    if (shapes_current == 1) {
+      heightTarget = displayHeight;
+      widthTarget = displayWidth;
+    }
+
+    if(widthTarget > heightTarget) {
+      widthTarget = 'none';
+    } else {
+      heightTarget = 'none';
+    }
     //2 shapes (over-under): use height 50%;
+    if (shapes_current == 2) {
+      heightTarget = displayHeight/(shapeContainersInUse);
+      widthTarget = 'none';
+    }
     //3 shapes (side-by-side and over-under): depends on the aspect ratio.
-    //
+    if (shapes_current >= 2) {
+      widthTarget = displayWidth/2;
+      heightTarget = displayHeight/(shapeContainersInUse);
+
+      if(widthTarget > heightTarget) {
+        widthTarget = 'none';
+      } else {
+        heightTarget = 'none';
+      }
+    }
+  }
+
+  for (let i = 0, l = wheels.length; i < l; i++) {
+    if(widthTarget != 'none') {
+      wheels[i].svg.setAttribute('width', widthTarget);
+    } else {
+      wheels[i].svg.removeAttribute('width');
+    }
+    if(heightTarget != 'none') {
+      wheels[i].svg.setAttribute('height', heightTarget);
+    } else {
+      wheels[i].svg.removeAttribute('height');
+    }
   }
 
 

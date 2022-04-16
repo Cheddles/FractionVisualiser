@@ -92,9 +92,8 @@ body {
 }
 
 .shape {
-  min-height: 0;
-  width: 100%;
-  height: 100%;
+  width:fit-content;
+  height:fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,6 +180,10 @@ body {
 
   .number-big {
     font-size: 15vh;
+  }
+
+  .shift-up {
+    justify-content: flex-start;
   }
 
 }
