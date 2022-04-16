@@ -1,3 +1,21 @@
+const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
+wideQuery.addListener(handleResize);
+let wide = false;
+function handleResize(event) {
+    if (!wide && event.matches) {
+      wide = true;
+      reassignWheels();
+      console.log('going wide');
+    } else if (wide && !event.matches) {
+      wide = false;
+      reassignWheels();
+      console.log('going narrow');
+    } else {
+      console.log('nothing doing');
+    }
+}
+
+
 const SHAPES_MAX = 12;
 const DENOMINATOR_MAX = 12;
 const numerator = document.getElementById('numerator');
@@ -9,7 +27,6 @@ let increasing = true;
 
 const viewboxSize = 200;
 const wheels = [];
-
 const num_containers = SHAPES_MAX/2;
 
 let shapeDisplay = document.getElementsByClassName('shape-display')[0];
@@ -93,6 +110,7 @@ const SHAPES_INITIAL = 1;
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
 let denominator_current = DENOMINATOR_INITIAL;
+handleResize(wideQuery);
 hideWheels();
 
 updateSliderValue(denominatorSelector, DENOMINATOR_INITIAL);
@@ -182,17 +200,32 @@ function reassignWheels () {
         shapeContainers[containerIndex].classList.remove('hide');
       }
     }
-  } else { //this doesn't work too well in landscape 16:9 and portrait...need ANOTHER distribution for this.
-    for (let i = 0, sc = 0; i < num_wheels; i++) {
-      let wheel = wheels[i];
-      let idx = i%2;
-      let containerIndex = sc;
-      sc += idx;
-      shapeContainers[containerIndex].appendChild(wheel.element);
-      if(i >= shapes_current) {
-        if(idx == 0) {shapeContainers[containerIndex].classList.add('hide');}
-      } else {
-        shapeContainers[containerIndex].classList.remove('hide');
+  } else {
+    if(!wide) {
+      for (let i = 0, sc = 0; i < num_wheels; i++) {
+        let wheel = wheels[i];
+        let idx = i%2;
+        let containerIndex = sc;
+        sc += idx;
+        shapeContainers[containerIndex].appendChild(wheel.element);
+        if(i >= shapes_current) {
+          if(idx == 0) {shapeContainers[containerIndex].classList.add('hide');}
+        } else {
+          shapeContainers[containerIndex].classList.remove('hide');
+        }
+      }
+    } else {
+      for (let i = 0, sc = 0; i < num_wheels; i++) {
+        let wheel = wheels[i];
+        let idx = i%2;
+        let containerIndex = sc;
+        sc += idx;
+        shapeContainers[containerIndex].appendChild(wheel.element);
+        if(i >= shapes_current) {
+          if(idx == 0) {shapeContainers[containerIndex].classList.add('hide');}
+        } else {
+          shapeContainers[containerIndex].classList.remove('hide');
+        }
       }
     }
   }

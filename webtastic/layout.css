@@ -82,7 +82,7 @@ body {
 }
 
 .shape-container {
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   overflow: hidden;
 
@@ -155,9 +155,15 @@ body {
   }
 
   .shape-container {
-    width: 50%;
+    flex-direction: column;
+    /* width: 50%; */
+    /* height: 100%; */
+  }
+
+  .shape {
     height: 100%;
   }
+
 
   #numerals {
     order: 2;
@@ -202,6 +208,7 @@ body {
 
   .shape-container {
     height: 50%;
+    flex-direction: row;
     width: auto;
   }
 
