@@ -16,6 +16,8 @@ body {
   display: none;
 }
 
+
+
 #viewport {
   height: 100vh;
   justify-content: center;
@@ -126,10 +128,7 @@ body {
   .shape-container {
     height: 100%;
     flex-direction: column;
-  }
-
-  .shape {
-    height: 100%;
+    justify-content: space-around;
   }
 }
 
@@ -156,14 +155,8 @@ body {
 
   .shape-container {
     flex-direction: column;
-    /* width: 50%; */
-    /* height: 100%; */
+    justify-content: space-around;
   }
-
-  .shape {
-    height: 100%;
-  }
-
 
   #numerals {
     order: 2;
@@ -229,4 +222,9 @@ body {
     background: black;
     transform: rotate(12deg);
   }
+}
+
+
+.shift-up {
+  justify-content: flex-start;
 }

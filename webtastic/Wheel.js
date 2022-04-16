@@ -53,7 +53,6 @@ Wheel.prototype.fillSectors = function (num_sectors) {
   }
 }
 
-
 Wheel.prototype.draw = function () {
   //draw all required sectors, setting css transforms as required
   let sectorCount = 0;

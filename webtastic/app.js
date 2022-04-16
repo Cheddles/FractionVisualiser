@@ -1,22 +1,19 @@
 const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
 wideQuery.addListener(handleResize);
 let wide = false;
+
 function handleResize(event) {
     if (!wide && event.matches) {
       wide = true;
       reassignWheels();
-      console.log('going wide');
     } else if (wide && !event.matches) {
       wide = false;
       reassignWheels();
-      console.log('going narrow');
-    } else {
-      console.log('nothing doing');
     }
 }
 
 
-const SHAPES_MAX = 12;
+const SHAPES_MAX = 4;
 const DENOMINATOR_MAX = 12;
 const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
@@ -37,10 +34,6 @@ for (i = 0; i < num_containers; i++) {
   shapeDisplay.appendChild(sc);
 }
 
-//need to hide any shape containers not in use!
-//also: fill order is a bit weird for landscape 16:9 and portrait.
-//if there are 2 shapes it's fine...left then right
-//if there are more, it goes LT LB MT MB RT RB when it should go LT MT RT LB MB RB
 
 for (let i = 0; i < SHAPES_MAX; i++) {
   //generate Wheels and append to alternating shape-containers
@@ -217,12 +210,15 @@ function reassignWheels () {
     } else {
       for (let i = 0, sc = 0; i < num_wheels; i++) {
         let wheel = wheels[i];
-        let idx = i%2;
-        let containerIndex = sc;
-        sc += idx;
+        let containerIndex = i%shapeContainers.length;
         shapeContainers[containerIndex].appendChild(wheel.element);
+        if (shapes_current > shapeContainers.length) {
+          shapeContainers[containerIndex].classList.add('shift-up');
+        } else {
+          shapeContainers[containerIndex].classList.remove('shift-up');
+        }
         if(i >= shapes_current) {
-          if(idx == 0) {shapeContainers[containerIndex].classList.add('hide');}
+          if(i < shapeContainers.length) {shapeContainers[containerIndex].classList.add('hide');}
         } else {
           shapeContainers[containerIndex].classList.remove('hide');
         }
