@@ -94,6 +94,7 @@ body {
 .shape {
   width:fit-content;
   height:fit-content;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,6 +131,10 @@ body {
     flex-direction: column;
     justify-content: space-around;
   }
+
+  .shape {
+    max-height: 100%;
+  }
 }
 
 @media (orientation: portrait) and (min-aspect-ratio: 5/11) {
@@ -163,6 +168,10 @@ body {
     height: 100%;
     flex-direction: column;
     justify-content: space-around;
+  }
+
+  .shape {
+    max-height: 100%;
   }
 
   #numerals {
@@ -226,6 +235,10 @@ body {
   .shape-container {
     flex-direction: row;
     width: auto;
+  }
+
+  .shape {
+    max-height: 100%;
   }
 
   #fraction {

@@ -165,7 +165,6 @@ function reassignWheels () {
 
   if(!wide) {
     if (shapes_current < 3) {
-      console.log(shapes_current);
       for (let i = 0; i < shapes_current; i++) {
         let wheel = wheels[i];
         let containerIndex = i%2;
@@ -232,7 +231,7 @@ function reassignWheels () {
     if (shapes_current == 1) {
       heightTarget = displayHeight;
       widthTarget = displayWidth;
-
+      console.log(widthTarget,heightTarget);
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
