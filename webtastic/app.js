@@ -138,15 +138,16 @@ function setBigNumber (position, value) {
   position.getElementsByTagName('span')[0].innerText = value;
 }
 
-function changeMaxShapes (value) {
-  //update shapes_current
-  shapes_current = Math.round(value);
-  if(shapes_current < 1) {shapes_current = 1;}
-
-  //update maximum value of numerator
-  let denominator_max = parseInt(denominatorSelector.value);
-  setSliderMaximum(numeratorSelector, shapes_current*denominator_max);
-}
+// function changeMaxShapes (value) {
+//   //update shapes_current if needed
+//
+//   shapes_current = Math.round(value);
+//   if(shapes_current < 1) {shapes_current = 1;}
+//
+//   //update maximum value of numerator
+//   let denominator_max = parseInt(denominatorSelector.value);
+//   setSliderMaximum(numeratorSelector, shapes_current*denominator_max);
+// }
 
 function hideWheels () {
   for (let i = 0; i < wheels.length; i++) {
@@ -170,25 +171,27 @@ function reassignWheels () {
   }
 
   let num_wheels = wheels.length;
-  if (shapes_current < 3) {
-    for (let i = 0; i < shapes_current; i++) {
-      let wheel = wheels[i];
-      let containerIndex = i%2;
-      if(i < 3) {shapeContainers[containerIndex].appendChild(wheel.element)};
-      if(shapes_current < 2) {
-        shapeContainers[1].classList.add('hide');
-      } else {
-        shapeContainers[1].classList.remove('hide');
+
+  if(!wide) {
+    if (shapes_current < 3) {
+      console.log(shapes_current);
+      for (let i = 0; i < shapes_current; i++) {
+        let wheel = wheels[i];
+        let containerIndex = i%2;
+        if(i < 3) {shapeContainers[containerIndex].appendChild(wheel.element)};
+        if(shapes_current < 2) {
+          shapeContainers[1].classList.add('hide');
+        } else {
+          shapeContainers[1].classList.remove('hide');
+        }
+        if(containerIndex > 1) {
+          shapeContainers[containerIndex].classList.add('hide');
+        } else {
+          shapeContainers[containerIndex].classList.remove('hide');
+        }
       }
-      if(containerIndex > 1) {
-        shapeContainers[containerIndex].classList.add('hide');
-      } else {
-        shapeContainers[containerIndex].classList.remove('hide');
-      }
-    }
-  } else {
-    if(!wide) {
-      for (let i = 0, sc = 0; i < num_wheels; i++) {
+    } else {
+        for (let i = 0, sc = 0; i < num_wheels; i++) {
         let wheel = wheels[i];
         let idx = i%2;
         let containerIndex = sc;
@@ -200,24 +203,25 @@ function reassignWheels () {
           shapeContainers[containerIndex].classList.remove('hide');
         }
       }
-    } else {
-      for (let i = 0, sc = 0; i < num_wheels; i++) {
-        let wheel = wheels[i];
-        let containerIndex = i%shapeContainers.length;
-        shapeContainers[containerIndex].appendChild(wheel.element);
-        if (shapes_current > shapeContainers.length) {
-          shapeContainers[containerIndex].classList.add('shift-up');
-        } else {
-          shapeContainers[containerIndex].classList.remove('shift-up');
-        }
-        if(i >= shapes_current) {
-          if(i < shapeContainers.length) {shapeContainers[containerIndex].classList.add('hide');}
-        } else {
-          shapeContainers[containerIndex].classList.remove('hide');
-        }
+    }
+  } else {
+    for (let i = 0; i < num_wheels; i++) {
+      let wheel = wheels[i];
+      let containerIndex = i%shapeContainers.length;
+      shapeContainers[containerIndex].appendChild(wheel.element);
+      if (shapes_current > shapeContainers.length) {
+        shapeContainers[containerIndex].classList.add('shift-up');
+      } else {
+        shapeContainers[containerIndex].classList.remove('shift-up');
+      }
+      if(i >= shapes_current) {
+        if(i < shapeContainers.length) {shapeContainers[containerIndex].classList.add('hide');}
+      } else {
+        shapeContainers[containerIndex].classList.remove('hide');
       }
     }
   }
+
   let shapeContainersInUse = shapeContainers.length;
   for (let i = 0, l = shapeContainers.length; i < l; i++) {
     if (shapeContainers[i].classList.contains('hide')) {
@@ -225,22 +229,42 @@ function reassignWheels () {
     }
   }
 
-  if(wide) {
-    if(shapes_current == 1) {
-      squareWheelsToHeight();
-    }
-    if(shapes_current > document.getElementsByClassName('shape-container').length) {
-      squareWheelsToHeight(2);
-    }
-  } else {
-    if(shapes_current == 1) {
-    }
-    else if(shapes_current == 2) {
-
-
-    } else if (shapes_current > 2) {
-    }
-  }
+  // if(wide) {
+  //   if(shapes_current == 1) {
+  //     squareWheelsToWidth();
+  //     squareWheelsToHeight();
+  //   } else if (shapes_current == shapeContainersInUse) {
+  //     squareWheelsToWidth(shapeContainersInUse);
+  //     // squareWheelsToHeight();
+  //
+  //   }
+  //   if(shapes_current > shapeContainersInUse) {
+  //     squareWheelsToHeight();
+  //     squareWheelsToWidth(shapeContainersInUse);
+  //   }
+  // } else {
+  //   if(shapes_current == 1) {
+  //     squareWheelsToHeight(1);
+  //     squareWheelsToWidth(1);
+  //   }
+  //   else if(shapes_current == 2) {
+  //     squareWheelsToHeight(2);
+  //   } else if (shapes_current > 2) {
+  //     //if the fractional width is more than the height of the container, then set by height
+  //     //otherwise, set by width
+  //     console.log(parseInt(shapeContainers[0].clientWidth/2), parseInt(shapeContainers[0].parentNode.clientHeight/shapeContainersInUse));
+  //     if(parseInt(shapeContainers[0].clientWidth/2)  > parseInt(shapeContainers[0].parentNode.clientHeight/shapeContainersInUse)) {
+  //       console.log('must use height as reference first');
+  //       // squareWheelsToWidth(2);
+  //       squareWheelsToHeight(shapeContainersInUse);
+  //     } else {
+  //       console.log('hooray!');
+  //       squareWheelsToHeight(shapeContainersInUse);
+  //       squareWheelsToWidth(2);
+  //     }
+  //
+  //   }
+  // }
 }
 
 function handleResize(event) {
@@ -256,24 +280,22 @@ function handleResize(event) {
 
 function squareWheelsToWidth (num = 1) {
   let wheelWidth = 1/num;
+  let newWidth = wheelWidth*wheels[0].element.parentNode.parentNode.clientWidth;
+
   for (let i = 0, l = wheels.length; i < l; i++) {
     if(wheels[i].element.parentNode){
-      let newWidth = wheelWidth*wheels[i].element.parentNode.clientWidth;
-      // wheels[i].element.parentNode.style.width = `${wheelWidth}%`;
-      // wheels[i].element.style.height = `${wheels[i].element.parentNode.clientWidth}px`;
-      // wheels[i].element.style.width = `${wheels[i].element.parentNode.clientWidth}px`;
-      wheels[i].element.style.height = `${newWidth}px`;
       wheels[i].element.style.width = `${newWidth}px`;
-      // wheels[i].element.parentNode.style.width = '100%';
+      wheels[i].element.style.height = `${newWidth}px`;
     }
   }
 }
 
 function squareWheelsToHeight (num = 1) {
   let wheelHeight = 1/num;
+  let newHeight = wheelHeight*wheels[0].element.parentNode.parentNode.clientHeight;
+
   for (let i = 0, l = wheels.length; i < l; i++) {
     if(wheels[i].element.parentNode){
-      let newHeight = wheelHeight*wheels[i].element.parentNode.parentNode.clientHeight;
       wheels[i].element.parentNode.style.height = `${wheelHeight*100}%`;
       wheels[i].element.style.height = `${newHeight}px`;
       wheels[i].element.style.width = `${newHeight}px`;

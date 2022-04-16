@@ -2,40 +2,39 @@
 /* Use styles.css for setting colours etc.                         */
 /* svg sizing will be carried out in JS depending on the size of containing elements */
 
-body * {
-  display: flex;
-}
 
 body {
+  display: flex;
   display: initial;
   height:100%;
   overflow: hidden;
 }
 
-.hide {
-  display: none;
-}
 
 
 
 #viewport {
+  display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
 #main {
+  display: flex;
   height: 90vh;
   width: 120vh;
 }
 
 #numerals, #shapes {
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 50%;
 }
 
 #fraction {
+  display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
@@ -70,10 +69,12 @@ body {
 }
 
 .shape-selector, .shape-quantity {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   width: 70%;
   height: 10vh;
+  min-height: 20px;
 }
 
 .shape-display {
@@ -84,23 +85,23 @@ body {
 }
 
 .shape-container {
+  display: flex;
   justify-content: space-around;
   align-items: center;
-  overflow: hidden;
-
+  /* overflow: hidden; */
 }
 
 .shape {
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.shape.placeholder {
-  visibility: hidden;
-}
 
-.shape svg {
-  display: initial;
+.shape > svg {
   height: 100%;
   width: 100%;
   border-radius: 50%;
@@ -132,17 +133,18 @@ body {
   }
 }
 
-@media (orientation: portrait) {
+@media (orientation: portrait) and (min-aspect-ratio: 5/11) {
   #main {
     display: flex;
     flex-direction: column;
-    height: 95vh;
+    height: 100vh;
     width: 90vw;
   }
 
   #numerals, #shapes {
+    display: flex;
     height: 50%;
-    width: auto;
+    width: 90vw;
   }
 
   #shapes {
@@ -150,14 +152,18 @@ body {
   }
 
   .shape-display {
+    display: flex;
     flex-direction: row;
-    height: 80%;
+    align-items: center;
+    width:100%;
+    min-height: 40vh;
   }
 
   .shape-container {
+    display:flex;
+    height: 100%;
     flex-direction: column;
     justify-content: space-around;
-    height: 100%;
   }
 
   #numerals {
@@ -190,11 +196,13 @@ body {
 
   #numerals {
     height: 30vh;
+    order: 2;
   }
 
   #shapes {
     height: 70vh;
     overflow: hidden;
+    order: 1;
   }
 
   .shape-display {
@@ -226,6 +234,9 @@ body {
   }
 }
 
+.hide {
+  display: none;
+}
 
 .shift-up {
   justify-content: flex-start;
