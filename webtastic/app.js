@@ -1,19 +1,4 @@
-const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
-wideQuery.addListener(handleResize);
-let wide = false;
-
-function handleResize(event) {
-    if (!wide && event.matches) {
-      wide = true;
-      reassignWheels();
-    } else if (wide && !event.matches) {
-      wide = false;
-      reassignWheels();
-    }
-}
-
-
-const SHAPES_MAX = 4;
+const SHAPES_MAX = 6;
 const DENOMINATOR_MAX = 12;
 const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
@@ -43,7 +28,9 @@ for (let i = 0; i < SHAPES_MAX; i++) {
   wheels.push(wheel);
 }
 
-
+const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
+wideQuery.addListener(handleResize);
+let wide = false;
 
 
 denominatorSelector.addEventListener('input', function (event) {
@@ -95,10 +82,15 @@ addRemove.addEventListener('click', function () {
   setSliderMaximum(numeratorSelector, shapes_current*parseInt(denominatorSelector.value));
 });
 
+
+
 //Initial values
 const NUMERATOR_INITIAL = 3;
 const DENOMINATOR_INITIAL = 7;
 const SHAPES_INITIAL = 1;
+
+let setHeight = 100;
+let setWidth = 100;
 
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
@@ -169,6 +161,7 @@ function hideWheels () {
 function reassignWheels () {
   //remove existing wheel elements from shape-containers
   let shapeContainers = document.getElementsByClassName('shape-container');
+
   for (let i = 0, l = shapeContainers.length; i < l; i++) {
     let sc = shapeContainers[i];
     while (sc.firstChild) {
@@ -225,7 +218,70 @@ function reassignWheels () {
       }
     }
   }
+  let shapeContainersInUse = shapeContainers.length;
+  for (let i = 0, l = shapeContainers.length; i < l; i++) {
+    if (shapeContainers[i].classList.contains('hide')) {
+      shapeContainersInUse--;
+    }
+  }
+
+  if(wide) {
+    if(shapes_current == 1) {
+      squareWheelsToHeight();
+    }
+    if(shapes_current > document.getElementsByClassName('shape-container').length) {
+      squareWheelsToHeight(2);
+    }
+  } else {
+    if(shapes_current == 1) {
+    }
+    else if(shapes_current == 2) {
+
+
+    } else if (shapes_current > 2) {
+    }
+  }
 }
+
+function handleResize(event) {
+  setHeight = wheels[0].element.parentNode.parentNode.clientHeight;
+  setWidth = wheels[0].element.parentNode.clientWidth;
+  if (!wide && event.matches) {
+    wide = true;
+  } else if (wide && !event.matches) {
+    wide = false;
+  }
+  reassignWheels();
+}
+
+function squareWheelsToWidth (num = 1) {
+  let wheelWidth = 1/num;
+  for (let i = 0, l = wheels.length; i < l; i++) {
+    if(wheels[i].element.parentNode){
+      let newWidth = wheelWidth*wheels[i].element.parentNode.clientWidth;
+      // wheels[i].element.parentNode.style.width = `${wheelWidth}%`;
+      // wheels[i].element.style.height = `${wheels[i].element.parentNode.clientWidth}px`;
+      // wheels[i].element.style.width = `${wheels[i].element.parentNode.clientWidth}px`;
+      wheels[i].element.style.height = `${newWidth}px`;
+      wheels[i].element.style.width = `${newWidth}px`;
+      // wheels[i].element.parentNode.style.width = '100%';
+    }
+  }
+}
+
+function squareWheelsToHeight (num = 1) {
+  let wheelHeight = 1/num;
+  for (let i = 0, l = wheels.length; i < l; i++) {
+    if(wheels[i].element.parentNode){
+      let newHeight = wheelHeight*wheels[i].element.parentNode.parentNode.clientHeight;
+      wheels[i].element.parentNode.style.height = `${wheelHeight*100}%`;
+      wheels[i].element.style.height = `${newHeight}px`;
+      wheels[i].element.style.width = `${newHeight}px`;
+    }
+  }
+}
+
+
 
 
 function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {

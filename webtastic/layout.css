@@ -151,11 +151,13 @@ body {
 
   .shape-display {
     flex-direction: row;
+    height: 80%;
   }
 
   .shape-container {
     flex-direction: column;
     justify-content: space-around;
+    height: 100%;
   }
 
   #numerals {
@@ -192,6 +194,7 @@ body {
 
   #shapes {
     height: 70vh;
+    overflow: hidden;
   }
 
   .shape-display {
@@ -200,7 +203,6 @@ body {
   }
 
   .shape-container {
-    height: 50%;
     flex-direction: row;
     width: auto;
   }
