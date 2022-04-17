@@ -223,9 +223,8 @@ function reassignWheels () {
   let widthTarget = '100%';
   let heightTarget = '100%';
 
-  let displayWidth = document.getElementsByClassName('shape-container')[0].parentNode.clientWidth;
-  let displayHeight = document.getElementsByClassName('shape-container')[0].parentNode.clientHeight;
-
+  let displayWidth = document.getElementsByClassName('shape-display')[0].clientWidth;
+  let displayHeight = document.getElementsByClassName('shape-display')[0].clientHeight;
   if (wide) {
     //in widescreen, the order of resizing of the svg is like this:
     //1 shape: use height 100%;
@@ -241,8 +240,8 @@ function reassignWheels () {
     }
     //2 shapes (side-by-side): use width 50%;
     if (shapes_current == 2) {
-      widthTarget = "100%";
-      heightTarget = '100%';
+      heightTarget = displayHeight;
+      widthTarget = displayWidth;
 
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
@@ -293,13 +292,20 @@ function reassignWheels () {
     }
   }
 
+
+
+
   for (let i = 0, l = wheels.length; i < l; i++) {
     if(widthTarget != 'none') {
+      console.log(widthTarget);
+
       wheels[i].svg.setAttribute('width', widthTarget);
     } else {
       wheels[i].svg.removeAttribute('width');
     }
     if(heightTarget != 'none') {
+      console.log(heightTarget);
+
       wheels[i].svg.setAttribute('height', heightTarget);
     } else {
       wheels[i].svg.removeAttribute('height');
@@ -318,7 +324,6 @@ function handleResize(event) {
   } else if (wide && !event.matches) {
     wide = false;
   }
-  // reassignWheels();
 }
 
 
