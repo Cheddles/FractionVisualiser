@@ -8,7 +8,6 @@ const shapeAdd = document.getElementById('shape-add');
 const shapeRemove = document.getElementById('shape-remove');
 const shapeQuantity = document.getElementsByClassName('shape-quantity')[0];
 
-
 const viewboxSize = 200;
 const wheels = [];
 const num_containers = SHAPES_MAX/2;
@@ -97,6 +96,8 @@ let setWidth = 100;
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
 let denominator_current = DENOMINATOR_INITIAL;
+let shapeType = 'circle';
+
 window.addEventListener('resize', reassignWheels);
 handleResize(wideQuery);
 hideWheels();
@@ -224,8 +225,14 @@ function reassignWheels () {
 
   let displayWidth = document.getElementsByClassName('shape-display')[0].clientWidth;
   let displayHeight = document.getElementsByClassName('shape-display')[0].clientHeight;
+  if(shapeType == 'square') {
+    console.log('L7');
+
+  }
+
   let  heightTarget = displayHeight;
   let  widthTarget = displayWidth;
+
   if (wide) {
     //in widescreen, the order of resizing of the svg is like this:
     //1 shape: use height 100%;

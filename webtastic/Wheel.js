@@ -1,4 +1,4 @@
-function Wheel (num_sectors = 12, size = '100%', vbSize = 200) {
+function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'square') {
 
   //create DOM presence
   this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -6,12 +6,19 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200) {
   this.svg.setAttribute('width', `${size}`);
   // this.svg.setAttribute('height', `${size}`);
   this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
-
+  this.viewboxSize = vbSize;
   //associated 'shape' element in DOM
+  this.shapeType = shape;
   this.element = document.createElement('div');
   this.element.classList.add('shape');
-  this.element.appendChild(this.svg);
+  if(this.shapeType === 'circle') {
+    this.svg.classList.add('circle');
+  }
+  if(this.shapeType === 'square') {
+    this.element.classList.add('square');
+  }
 
+  this.element.appendChild(this.svg);
 
   //needs own collection of sectors (up to max-denominator value)
   this.sectors = [];
@@ -29,7 +36,7 @@ Wheel.prototype.adjustDivisions = function (divisions) {
   //change rotations for all active sectors, and adjust their sizes (circle mode)
   for (let i = 0, l = this.sectors.length; i < l; i++) {
     let thisSector = this.sectors[i];
-    thisSector.adjustSize(divisions);
+    thisSector.adjustSize(divisions, this.shapeType);
     if(i >= divisions) {
       thisSector.active = false;
       thisSector.filled = false;
@@ -59,7 +66,11 @@ Wheel.prototype.draw = function () {
   for (let i = 0, l = this.sectors.length; i < l; i++) {
     let thisSector = this.sectors[i];
     if (thisSector.active) {
-      thisSector.path.style.transform = `rotateZ(${sectorCount*thisSector.angle}deg)`;
+      if (this.shapeType == 'square') {
+        thisSector.path.style.transform = `translateY(${this.viewboxSize - 10 - (sectorCount+1)*thisSector.disp}px)`;
+      } else {
+        thisSector.path.style.transform = `rotateZ(${sectorCount*thisSector.angle}deg)`;
+      }
       sectorCount++;
     }
     thisSector.draw();

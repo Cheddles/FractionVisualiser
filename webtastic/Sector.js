@@ -12,11 +12,12 @@ function Sector (vbSize = 200, divisions = 1) {
   this.adjustSize(12);
 }
 
-Sector.prototype.adjustSize = function (divisions) {
+Sector.prototype.adjustSize = function (division, shape = 'circle') {
   //change angular width of a sector (for circle mode) and generate markup
-  this.angle = 360/divisions;
-  let d = this.generateSectorMarkup(this.angle);
-  this.path.setAttribute('d', d);
+  this.angle = 360/division;
+  this.disp = (this.viewboxSize - 20)/division;
+  let d = this.generateSectorMarkup(division);
+  this.path.setAttribute('d', d[shape]);
 
   //change width of sector (for square mode) and generate markup
 }
@@ -32,28 +33,41 @@ Sector.prototype.draw = function () {
   this.path.setAttribute('class', classString);
 }
 
-Sector.prototype.generateSectorMarkup = function (angle) {
+Sector.prototype.generateSectorMarkup = function (division) {
   //generate markup to insert as 'd' attribute in this sector's SVG path
-  let thisAngle = angle%360;
-  let startCoords = this.findCoordsFromAngle(0);
-  let endCoords = this.findCoordsFromAngle(angle);
-  let largeArc = angle < 180 ? 0 : 1;
 
-  let d = `
+    let angle = 360/division;
+    let thisAngle = angle%360;
+    let startCoords = this.findCoordsFromAngle(0);
+    let endCoords = this.findCoordsFromAngle(angle);
+    let largeArc = angle < 180 ? 0 : 1;
+
+    let circle = `
     M ${startCoords.x} ${startCoords.y}
-    A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
-    L ${viewboxSize/2} ${viewboxSize/2} Z
-  `;
-
-  if (thisAngle == 0) {
-    let middleCoords = this.findCoordsFromAngle(180);
-    d = `
-      M ${startCoords.x} ${startCoords.y}
-      A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${middleCoords.x} ${middleCoords.y}
-      A ${(viewboxSize/2) - 5} ${(viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
+    A ${(this.viewboxSize/2) - 5} ${(this.viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
+    L ${this.viewboxSize/2} ${this.viewboxSize/2} Z
     `;
-  }
-  return d;
+
+    if (thisAngle == 0) {
+      let middleCoords = this.findCoordsFromAngle(180);
+      d = `
+      M ${startCoords.x} ${startCoords.y}
+      A ${(this.viewboxSize/2) - 5} ${(this.viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${middleCoords.x} ${middleCoords.y}
+      A ${(this.viewboxSize/2) - 5} ${(this.viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
+      `;
+    }
+
+    let fracHeight = (this.viewboxSize - 20)/division;
+
+    let square = `
+    M 10 ${fracHeight}
+    L ${this.viewboxSize - 10} ${fracHeight}
+    L ${this.viewboxSize - 10} 0
+    L 10 0 Z
+    `;
+
+    return {circle, square};
+
 }
 
 

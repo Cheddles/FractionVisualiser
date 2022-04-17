@@ -106,14 +106,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* padding: 40px; */
 }
 
 
 .shape > svg {
   max-height: fit-content;
   max-width: fit-content;
+}
+
+.circle {
   border-radius: 50%;
 }
+
+.square {
+  padding: 3%;
+  transform: scale(0.7);
+}
+
+
 
 .shift-up {
   justify-content: center;
