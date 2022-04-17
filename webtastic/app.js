@@ -96,6 +96,7 @@ let setWidth = 100;
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
 let denominator_current = DENOMINATOR_INITIAL;
+window.addEventListener('resize', reassignWheels);
 handleResize(wideQuery);
 hideWheels();
 
@@ -231,7 +232,7 @@ function reassignWheels () {
     if (shapes_current == 1) {
       heightTarget = displayHeight;
       widthTarget = displayWidth;
-      console.log(widthTarget,heightTarget);
+
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
@@ -277,7 +278,7 @@ function reassignWheels () {
     //2 shapes (over-under): use height 50%;
     if (shapes_current == 2) {
       heightTarget = displayHeight/(shapeContainersInUse);
-      widthTarget = 'none';
+      widthTarget = displayWidth;
     }
     //3 shapes (side-by-side and over-under): depends on the aspect ratio.
     if (shapes_current >= 2) {
@@ -309,6 +310,7 @@ function reassignWheels () {
 }
 
 function handleResize(event) {
+  // console.log('triggered');
   setHeight = wheels[0].element.parentNode.parentNode.clientHeight;
   setWidth = wheels[0].element.parentNode.clientWidth;
   if (!wide && event.matches) {
@@ -316,35 +318,8 @@ function handleResize(event) {
   } else if (wide && !event.matches) {
     wide = false;
   }
-  reassignWheels();
+  // reassignWheels();
 }
-
-function squareWheelsToWidth (num = 1) {
-  let wheelWidth = 1/num;
-  let newWidth = wheelWidth*wheels[0].element.parentNode.parentNode.clientWidth;
-
-  for (let i = 0, l = wheels.length; i < l; i++) {
-    if(wheels[i].element.parentNode){
-      wheels[i].element.style.width = `${newWidth}px`;
-      wheels[i].element.style.height = `${newWidth}px`;
-    }
-  }
-}
-
-function squareWheelsToHeight (num = 1) {
-  let wheelHeight = 1/num;
-  let newHeight = wheelHeight*wheels[0].element.parentNode.parentNode.clientHeight;
-
-  for (let i = 0, l = wheels.length; i < l; i++) {
-    if(wheels[i].element.parentNode){
-      wheels[i].element.parentNode.style.height = `${wheelHeight*100}%`;
-      wheels[i].element.style.height = `${newHeight}px`;
-      wheels[i].element.style.width = `${newHeight}px`;
-    }
-  }
-}
-
-
 
 
 function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {

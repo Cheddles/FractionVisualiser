@@ -16,6 +16,10 @@ path.filled {
   fill: green;
 }
 
+#viewport {
+  border: 1px solid black;
+}
+
 #numerals, #shapes {
   border: 1px solid black;
 }
@@ -29,7 +33,7 @@ path.filled {
 }
 
 .shape-container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .shape svg {
