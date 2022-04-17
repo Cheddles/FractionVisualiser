@@ -50,7 +50,7 @@ Sector.prototype.generateSectorMarkup = function (division) {
 
     if (thisAngle == 0) {
       let middleCoords = this.findCoordsFromAngle(180);
-      d = `
+      circle = `
       M ${startCoords.x} ${startCoords.y}
       A ${(this.viewboxSize/2) - 5} ${(this.viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${middleCoords.x} ${middleCoords.y}
       A ${(this.viewboxSize/2) - 5} ${(this.viewboxSize /2) - 5}, 0, ${largeArc}, 1, ${endCoords.x} ${endCoords.y}
