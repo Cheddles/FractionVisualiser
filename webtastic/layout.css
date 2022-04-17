@@ -70,6 +70,7 @@ body {
 #shapes {
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 
 .shape-selector, .shape-quantity {
@@ -87,7 +88,7 @@ body {
   justify-content: center;
   height: 80vh;
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .shape-container {
@@ -105,13 +106,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px;
 }
 
 
 .shape > svg {
-  max-height: 100%;
-  max-width: 100%;
+  max-height: fit-content;
+  max-width: fit-content;
   border-radius: 50%;
 }
 
@@ -132,6 +132,7 @@ button {
 @media (orientation: landscape) and (min-aspect-ratio: 16/9) {
   #main {
     width: 160vh;
+    max-width: 160vh;
   }
 
   #numerals {
@@ -145,7 +146,7 @@ button {
 
   .shape-display {
     flex-direction: row;
-    align-items: center;
+    /* align-items: center; */
   }
 
   .shape-selector, .shape-quantity {
@@ -191,7 +192,7 @@ button {
   .shape-display {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    /* align-items: center; */
     width:100%;
     height: 30vh;
   }

@@ -163,7 +163,6 @@ function reassignWheels () {
   }
 
   let num_wheels = wheels.length;
-
   if(!wide) {
     if (shapes_current < 3) {
       for (let i = 0; i < shapes_current; i++) {
@@ -220,18 +219,16 @@ function reassignWheels () {
     }
   }
 
-  let widthTarget = '100%';
-  let heightTarget = '100%';
+
 
   let displayWidth = document.getElementsByClassName('shape-display')[0].clientWidth;
   let displayHeight = document.getElementsByClassName('shape-display')[0].clientHeight;
+  let  heightTarget = displayHeight;
+  let  widthTarget = displayWidth;
   if (wide) {
     //in widescreen, the order of resizing of the svg is like this:
     //1 shape: use height 100%;
     if (shapes_current == 1) {
-      heightTarget = displayHeight;
-      widthTarget = displayWidth;
-
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
@@ -239,10 +236,8 @@ function reassignWheels () {
       }
     }
     //2 shapes (side-by-side): use width 50%;
-    if (shapes_current == 2) {
-      heightTarget = displayHeight;
-      widthTarget = displayWidth;
-
+    if (shapes_current > 1 && shapes_current <= shapeContainers.length) {
+      widthTarget = displayWidth/shapeContainersInUse;
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
@@ -250,13 +245,15 @@ function reassignWheels () {
       }
     }
     //3 shapes (side-by-side and over-under): depends on the aspect ratio.
-    if (shapes_current > 2) {
+    if (shapes_current > shapeContainers.length) {
       heightTarget = displayHeight/2;
+      console.log(heightTarget);
+      console.log(widthTarget);
       widthTarget = displayWidth/(shapeContainersInUse);
-
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
+        console.log('height-limited');
         heightTarget = 'none';
       }
     }
@@ -292,20 +289,13 @@ function reassignWheels () {
     }
   }
 
-
-
-
   for (let i = 0, l = wheels.length; i < l; i++) {
     if(widthTarget != 'none') {
-      console.log(widthTarget);
-
       wheels[i].svg.setAttribute('width', widthTarget);
     } else {
       wheels[i].svg.removeAttribute('width');
     }
     if(heightTarget != 'none') {
-      console.log(heightTarget);
-
       wheels[i].svg.setAttribute('height', heightTarget);
     } else {
       wheels[i].svg.removeAttribute('height');
@@ -316,7 +306,7 @@ function reassignWheels () {
 }
 
 function handleResize(event) {
-  // console.log('triggered');
+  console.log('triggered');
   setHeight = wheels[0].element.parentNode.parentNode.clientHeight;
   setWidth = wheels[0].element.parentNode.clientWidth;
   if (!wide && event.matches) {
@@ -324,6 +314,7 @@ function handleResize(event) {
   } else if (wide && !event.matches) {
     wide = false;
   }
+  console.log('wide:' + wide);
 }
 
 
