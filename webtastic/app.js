@@ -98,7 +98,10 @@ let numerator_current = NUMERATOR_INITIAL;
 let denominator_current = DENOMINATOR_INITIAL;
 let shapeType = 'circle';
 
-window.addEventListener('resize', reassignWheels);
+window.addEventListener('resize', function (event) {
+  console.log('resize happened');
+  reassignWheels();
+});
 handleResize(wideQuery);
 hideWheels();
 
@@ -197,17 +200,18 @@ function reassignWheels () {
       }
     }
   } else {
+    let halfWheels = Math.ceil(num_wheels/2);
     for (let i = 0; i < num_wheels; i++) {
       let wheel = wheels[i];
-      let containerIndex = i%shapeContainers.length;
+      let containerIndex = i < halfWheels ? 0 : 1;
       shapeContainers[containerIndex].appendChild(wheel.element);
-      if (shapes_current > shapeContainers.length) {
-        shapeContainers[containerIndex].classList.add('shift-up');
-      } else {
-        shapeContainers[containerIndex].classList.remove('shift-up');
-      }
+      // if (shapes_current > shapeContainers.length) {
+      //   shapeContainers[containerIndex].classList.add('shift-up');
+      // } else {
+      //   shapeContainers[containerIndex].classList.remove('shift-up');
+      // }
       if(i >= shapes_current) {
-        if(i < shapeContainers.length) {shapeContainers[containerIndex].classList.add('hide');}
+        if(containerIndex == 0) {shapeContainers[1].classList.add('hide');}
       } else {
         shapeContainers[containerIndex].classList.remove('hide');
       }
@@ -244,8 +248,8 @@ function reassignWheels () {
       }
     }
     //2 shapes (side-by-side): use width 50%;
-    if (shapes_current > 1 && shapes_current <= shapeContainers.length) {
-      widthTarget = displayWidth/shapeContainersInUse;
+    if (shapes_current > 1 && shapes_current <= Math.ceil(num_wheels/2)) {
+      widthTarget = displayWidth/shapes_current;
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
@@ -294,7 +298,7 @@ function reassignWheels () {
       widthTarget = displayWidth/2;
       heightTarget = displayHeight/(shapeContainersInUse);
 
-      if(widthTarget > heightTarget) {
+      if(widthTarget >= heightTarget) {
         widthTarget = 'none';
       } else {
         heightTarget = 'none';

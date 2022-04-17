@@ -79,7 +79,7 @@ body {
   justify-content: space-between;
   width: 90%;
   height: 10%;
-  min-height: 20px;
+  /* min-height: 20px; */
 }
 
 .shape-display {
@@ -93,7 +93,7 @@ body {
 
 .shape-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   /* overflow: hidden; */
 }
@@ -120,8 +120,8 @@ body {
 }
 
 .square {
-  padding: 3%;
-  transform: scale(0.7);
+  /* padding: 3%; */
+  /* transform: scale(0.7); */
 }
 
 
@@ -158,7 +158,7 @@ button {
   }
 
   .shape-display {
-    flex-direction: row;
+    flex-direction: column;
     /* align-items: center; */
   }
 
@@ -169,7 +169,7 @@ button {
   .shape-container {
     max-height: 100%;
     height: 100%;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
   }
 
@@ -204,7 +204,7 @@ button {
 
   .shape-display {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     /* align-items: center; */
     width:100%;
     height: 100%;
@@ -213,9 +213,8 @@ button {
 
   .shape-container {
     display:flex;
-    height: 90%;
-    max-height: 100%;
-    flex-direction: column;
+    height: 100%;
+    flex-direction: row;
     justify-content: space-around;
   }
 

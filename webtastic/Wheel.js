@@ -1,4 +1,4 @@
-function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'square') {
+function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'circle') {
 
   //create DOM presence
   this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
