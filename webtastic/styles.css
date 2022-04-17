@@ -76,3 +76,31 @@ button:active {
 #circleButton {
   border-radius: 50%;
 }
+
+#squareButton, #circleButton {
+}
+
+.number-button {
+  user-select: none;
+  border: none;
+  background: none;
+  font-size: 5vh;
+  color: black;
+  box-shadow:none;
+  text-shadow:3px 3px 5px rgba(0,0,0,0.7);
+}
+
+.number-button:hover {
+  color: #0053ba;
+  background: none;
+}
+
+.number-button:focus {
+  background: none;
+  outline: unset;
+  outline-offset: unset;
+}
+
+.number-button:active {
+    -webkit-text-stroke: 5px #0053ba;
+}

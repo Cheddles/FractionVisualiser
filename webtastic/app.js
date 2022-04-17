@@ -4,8 +4,10 @@ const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
 const numeratorSelector = document.getElementById('numerator-selector');
 const denominatorSelector = document.getElementById('denominator-selector');
-const addRemove = document.getElementById('addremove');
-let increasing = true;
+const shapeAdd = document.getElementById('shape-add');
+const shapeRemove = document.getElementById('shape-remove');
+const shapeQuantity = document.getElementsByClassName('shape-quantity')[0];
+
 
 const viewboxSize = 200;
 const wheels = [];
@@ -63,16 +65,15 @@ numeratorSelector.addEventListener('input', function (event) {
 });
 
 
-addRemove.addEventListener('click', function () {
-  if (shapes_current < SHAPES_MAX && increasing) {
-    shapes_current++;
-    if (shapes_current >= SHAPES_MAX) {
-      increasing = !increasing;
+shapeQuantity.addEventListener('click', function (event) {
+  if(event.target == shapeAdd) {
+    if (shapes_current < SHAPES_MAX) {
+      shapes_current++;
     }
-  } else if (shapes_current > 1 && !increasing) {
-    shapes_current--;
-    if (shapes_current <= 1) {
-      increasing = !increasing;
+  }
+  if(event.target == shapeRemove) {
+    if (shapes_current > 1) {
+      shapes_current--;
     }
   }
   //shift wheels to different containers for best display
@@ -247,13 +248,10 @@ function reassignWheels () {
     //3 shapes (side-by-side and over-under): depends on the aspect ratio.
     if (shapes_current > shapeContainers.length) {
       heightTarget = displayHeight/2;
-      console.log(heightTarget);
-      console.log(widthTarget);
       widthTarget = displayWidth/(shapeContainersInUse);
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
-        console.log('height-limited');
         heightTarget = 'none';
       }
     }
@@ -264,20 +262,28 @@ function reassignWheels () {
     if (shapes_current == 1) {
       heightTarget = displayHeight;
       widthTarget = displayWidth;
+
+      if(widthTarget > heightTarget) {
+        widthTarget = 'none';
+      } else {
+        heightTarget = 'none';
+      }
     }
 
-    if(widthTarget > heightTarget) {
-      widthTarget = 'none';
-    } else {
-      heightTarget = 'none';
-    }
     //2 shapes (over-under): use height 50%;
     if (shapes_current == 2) {
-      heightTarget = displayHeight/(shapeContainersInUse);
+      heightTarget = displayHeight/2;
       widthTarget = displayWidth;
+
+      if(widthTarget > heightTarget) {
+        widthTarget = 'none';
+      } else {
+        heightTarget = 'none';
+      }
     }
+
     //3 shapes (side-by-side and over-under): depends on the aspect ratio.
-    if (shapes_current >= 2) {
+    if (shapes_current >  2) {
       widthTarget = displayWidth/2;
       heightTarget = displayHeight/(shapeContainersInUse);
 
@@ -290,19 +296,17 @@ function reassignWheels () {
   }
 
   for (let i = 0, l = wheels.length; i < l; i++) {
-    if(widthTarget != 'none') {
-      wheels[i].svg.setAttribute('width', widthTarget);
-    } else {
+    if(widthTarget === 'none') {
       wheels[i].svg.removeAttribute('width');
-    }
-    if(heightTarget != 'none') {
-      wheels[i].svg.setAttribute('height', heightTarget);
     } else {
+      wheels[i].svg.setAttribute('width', widthTarget);
+    }
+    if(heightTarget === 'none') {
       wheels[i].svg.removeAttribute('height');
+    } else {
+      wheels[i].svg.setAttribute('height', heightTarget);
     }
   }
-
-
 }
 
 function handleResize(event) {
