@@ -226,9 +226,9 @@ function reassignWheels () {
   }
 
 
-
-  let displayWidth = document.getElementsByClassName('shape-display')[0].clientWidth;
-  let displayHeight = document.getElementsByClassName('shape-display')[0].clientHeight;
+  let bbox = document.getElementsByClassName('shape-display')[0].getBoundingClientRect();
+  let displayWidth = bbox.width;
+  let displayHeight = bbox.height;
   if(shapeType == 'square') {
     console.log('L7');
 
