@@ -18,6 +18,12 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'circle')
     this.element.classList.add('square');
   }
 
+  this.rotation_angle = 0;
+  this.dragging = false;
+  this.pos_current = {x: 0, y: 0};
+  this.pos_initial = {x: 0, y: 0};
+  this.shape_centre = {x: 0, y: 0};
+  this.ang_initial = 0;
   this.element.appendChild(this.svg);
 
   //needs own collection of sectors (up to max-denominator value)
@@ -30,6 +36,15 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'circle')
 
   this.divisions = num_sectors;
   this.adjustDivisions(num_sectors);
+
+
+  this.element.addEventListener('touchstart', this.dragStart, false);
+  this.element.addEventListener('touchend', this.dragEnd, false);
+  this.element.addEventListener('touchmove', this.drag, false);
+
+  this.element.addEventListener('mousedown', this.dragStart, false);
+  this.element.addEventListener('mouseup', this.dragEnd, false);
+  this.element.addEventListener('mousemove', this.drag, false);
 }
 
 Wheel.prototype.adjustDivisions = function (divisions) {
@@ -75,4 +90,58 @@ Wheel.prototype.draw = function () {
     }
     thisSector.draw();
   }
+}
+
+
+
+
+
+Wheel.prototype.dragStart = function (event) {
+  if (event.type === 'touchstart') {
+    this.pos_initial.x = event.touches[0].clientX;
+    this.pos_initial.y = event.touches[0].clientY;
+  } else {
+    console.log(this);
+    this.pos_initial.x = event.clientX;
+    this.pos_initial.y = event.clientY;
+  }
+
+  if (event.target.classList.contains('shape')) {
+    this.dragging = true;
+    dragShape = this.element;
+    console.log(dragShape);
+    let bbox = dragShape.getBoundingClientRect();
+    this.shape_centre = {x: (bbox.left + bbox.right)/2, y: (bbox.top + bbox.bottom)/2};
+    this.ang_initial = Math.atan((shape_centre.y - pos_initial.y)/(shape_centre.x - pos_initial.x));
+  }
+}
+
+Wheel.prototype.dragEnd = function (event) {
+  console.log('bye');
+  dragging = false;
+}
+
+Wheel.prototype.drag = function (event) {
+  if (this.dragging) {
+    console.log('draggin');
+    event.preventDefault();
+    if (event.type === 'touchmove') {
+      this.pos_current.x = event.touches[0].clientX;
+      this.pos_current.y = event.touches[0].clientY;
+    } else {
+      this.pos_current.x = event.clientX;
+      this.pos_current.y = event.clientY;
+    }
+    this.setRotation();
+  }
+}
+
+Wheel.prototype.setRotation = function () {
+  //work out current mouse angle relative to shape centre
+  let ang_current = Math.atan((this.shape_centre.y - this.pos_current.y)/(this.shape_centre.x - this.pos_current.x));
+  let ang_diff = ang_current - this.ang_initial;
+
+  //rotate shape to match this...
+  this.rotation_angle += 360*ang_diff/(2*Math.PI);
+  this.element.style.transform = `rotateZ(${this.rotation_angle})`;
 }

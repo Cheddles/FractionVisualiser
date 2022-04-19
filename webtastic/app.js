@@ -20,7 +20,6 @@ for (i = 0; i < num_containers; i++) {
   shapeDisplay.appendChild(sc);
 }
 
-
 for (let i = 0; i < SHAPES_MAX; i++) {
   //generate Wheels and append to alternating shape-containers
   let containerIndex = i%num_containers;
@@ -28,6 +27,10 @@ for (let i = 0; i < SHAPES_MAX; i++) {
   document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
   wheels.push(wheel);
 }
+
+
+
+
 
 const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
 wideQuery.addListener(handleResize);
