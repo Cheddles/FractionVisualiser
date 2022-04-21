@@ -58,6 +58,8 @@ body {
 .number-big {
   align-items: center;
   font-size: 30vh;
+  pointer-events: none;
+  user-select: none;
 }
 
 .fraction-bar {
@@ -113,6 +115,11 @@ body {
 .shape > svg {
   max-height: fit-content;
   max-width: fit-content;
+  /* pointer-events: none; */
+}
+
+path {
+  pointer-events: none;
 }
 
 .circle {
