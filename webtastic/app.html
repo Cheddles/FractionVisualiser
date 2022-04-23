@@ -10,6 +10,7 @@
     <div id="viewport">
       <div id="main">
         <div id="numerals">
+          <span class="tooltip">Drag to adjust value</span>
           <input id="numerator-selector" class="number-selector" type="range" value="3" step="1" min="0" max="14"/>
           <div id="fraction">
             <div id="numerator" class="number-big">
@@ -22,22 +23,22 @@
             </div>
           </div>
           <input id="denominator-selector" class="number-selector" type="range" value="7" step="1" min="1" max="12"/>
+          <span class="tooltip">Drag to adjust value</span>
         </div>
         <div id="shapes">
           <div class="shape-selector">
             <button type="button" id="squareButton"></button>
             <div>
-              <span>Select the shape you want to use</span>
+              <span class="tooltip">Select the shape you want to use</span>
             </div>
             <button type="button" id="circleButton"></button>
           </div>
           <div class="shape-display">
-
+            <span class="tooltip rotate-me">Drag shape to rotate</span>
           </div>
           <div class="shape-quantity">
-            <!-- <button type="button" name="scatter">Scatter</button> -->
             <button type="button" id="shape-remove" class="number-button">-1</button>
-              <span>Add another shape -></span>
+              <span class="tooltip">Add another shape -></span>
             <button type="button" id="shape-add" class="number-button">+1</button>
 
           </div>

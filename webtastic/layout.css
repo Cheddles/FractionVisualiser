@@ -88,6 +88,7 @@ body {
 }
 
 .shape-display {
+  position:relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -135,8 +136,6 @@ path {
   max-width: 70%;
 }
 
-
-
 .shift-up {
   justify-content: center;
 }
@@ -149,6 +148,14 @@ button {
 
 #addremove {
   align-self: flex-end;
+}
+
+.rotate-me {
+  position: absolute;
+  left: -6em;
+  transform-origin: 50% 50%;
+  transform: rotateZ(-90deg);
+  font-size: 100%;
 }
 
 @media (orientation: landscape) and (min-aspect-ratio: 16/9) {
@@ -190,6 +197,9 @@ button {
 
   .shift-up {
     justify-content: flex-start;
+  }
+
+  .rotate-me {
   }
 }
 
@@ -257,6 +267,8 @@ button {
     justify-content: flex-start;
   }
 
+  .rotate-me {
+  }
 
 }
 

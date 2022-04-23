@@ -8,6 +8,7 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, margin = 5, shape
   this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
   //associated 'shape' element in DOM
   this.shapeType = shape;
+
   this.element = document.createElement('div');
   this.element.classList.add('shape');
   if(this.shapeType === 'circle') {
@@ -19,6 +20,7 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, margin = 5, shape
 
   this.element.style.transform = 'rotateZ(0deg)';
   this.element.appendChild(this.svg);
+
 
   //needs own collection of sectors (up to max-denominator value)
   this.viewboxSize = vbSize;
