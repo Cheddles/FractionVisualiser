@@ -1,5 +1,24 @@
 const SHAPES_MAX = 6;
 const DENOMINATOR_MAX = 12;
+const NUMERATOR_INITIAL = 3;
+const DENOMINATOR_INITIAL = 7;
+const SHAPES_INITIAL = 1;
+const viewboxSize = 200;
+const wheels = [];
+const num_containers = SHAPES_MAX/2;
+
+let shapes_current = SHAPES_INITIAL;
+let numerator_current = NUMERATOR_INITIAL;
+let denominator_current = DENOMINATOR_INITIAL;
+let shapeType = 'circle';
+
+let dragging = false;
+let pos_current = {x: 0, y: 0};
+let pos_initial = {x: 0, y: 0};
+let shape_centre = {x: 0, y: 0};
+let ang_initial = 0;
+let dragShape;
+
 const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
 const numeratorSelector = document.getElementById('numerator-selector');
@@ -8,9 +27,7 @@ const shapeAdd = document.getElementById('shape-add');
 const shapeRemove = document.getElementById('shape-remove');
 const shapeQuantity = document.getElementsByClassName('shape-quantity')[0];
 
-const viewboxSize = 200;
-const wheels = [];
-const num_containers = SHAPES_MAX/2;
+
 
 let shapeDisplay = document.getElementsByClassName('shape-display')[0];
 for (i = 0; i < num_containers; i++) {
@@ -29,6 +46,11 @@ for (let i = 0; i < SHAPES_MAX; i++) {
 }
 
 
+const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
+wideQuery.addListener(handleResize);
+let wide = false;
+
+
 window.addEventListener('touchstart', dragStart, false);
 window.addEventListener('touchend', dragEnd, false);
 window.addEventListener('touchmove', drag, false);
@@ -37,21 +59,10 @@ window.addEventListener('mousedown', dragStart, false);
 window.addEventListener('mouseup', dragEnd, false);
 window.addEventListener('mousemove', drag, false);
 
-let dragging = false;
-let pos_current = {x: 0, y: 0};
-let pos_initial = {x: 0, y: 0};
-let shape_centre = {x: 0, y: 0};
-let ang_initial = 0;
-let dragShape;
+window.addEventListener('resize', function (event) {
+  reassignWheels();
+});
 
-
-
-
-
-
-const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
-wideQuery.addListener(handleResize);
-let wide = false;
 
 
 
@@ -71,7 +82,6 @@ denominatorSelector.addEventListener('input', function (event) {
 numeratorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
   setBigNumber(numerator, value);
-  // numerator_current = value;
   //also update the visuals!
   for (let i = 0, l = wheels.length; i < l; i++) {
     let wheelie = wheels[i];
@@ -105,27 +115,19 @@ shapeQuantity.addEventListener('click', function (event) {
 
 
 
-//Initial values
-const NUMERATOR_INITIAL = 3;
-const DENOMINATOR_INITIAL = 7;
-const SHAPES_INITIAL = 1;
-
-let shapes_current = SHAPES_INITIAL;
-let numerator_current = NUMERATOR_INITIAL;
-let denominator_current = DENOMINATOR_INITIAL;
-let shapeType = 'circle';
-
-window.addEventListener('resize', function (event) {
-  console.log('resize happened');
-  reassignWheels();
-});
 handleResize(wideQuery);
 hideWheels();
+
+
 
 updateSliderValue(denominatorSelector, DENOMINATOR_INITIAL);
 updateSliderValue(numeratorSelector, NUMERATOR_INITIAL);
 
 reassignWheels();
+
+
+
+//FUNctions//
 
 function updateSliderValue (slider, value) {
   slider.value = `${value}`;

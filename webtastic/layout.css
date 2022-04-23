@@ -2,6 +2,9 @@
 /* Use styles.css for setting colours etc.                         */
 /* svg sizing will be carried out in JS depending on the size of containing elements */
 
+html {
+  touch-action: none;
+}
 
 body {
   display: flex;
