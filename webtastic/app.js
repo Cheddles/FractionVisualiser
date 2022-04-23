@@ -44,79 +44,7 @@ let shape_centre = {x: 0, y: 0};
 let ang_initial = 0;
 let dragShape;
 
-function dragStart (event) {
-  if (event.type === 'touchstart') {
-    pos_initial.x = event.touches[0].clientX;
-    pos_initial.y = event.touches[0].clientY;
-  } else {
-    pos_initial.x = event.clientX;
-    pos_initial.y = event.clientY;
-  }
-  if (event.target.tagName === 'svg' && event.target.parentNode.classList.contains('shape')) {
-    dragging = true;
-    dragShape = event.target;
-    let bbox = dragShape.getBoundingClientRect();
-    shape_centre = {x: (bbox.left + bbox.right)/2, y: (bbox.top + bbox.bottom)/2};
-    ang_initial = Math.atan((pos_initial.y - shape_centre.y)/(pos_initial.x - shape_centre.x));
-    if(pos_initial.x <= shape_centre.x) {
-      if(pos_initial.y <= shape_centre.y) {
-        ang_initial = Math.PI + ang_initial;
-      } else {
-        ang_initial = Math.PI + ang_initial;
-      }
-    } else {
-      if(pos_initial.y <= shape_centre.y) {
-        ang_initial = 2*Math.PI + ang_initial;
-      }
-    }
-  }
-}
 
-function dragEnd (event) {
-  dragging = false;
-}
-
-function drag (event) {
-  if (dragging) {
-    event.preventDefault();
-    if (event.type === 'touchmove') {
-      pos_current.x = event.touches[0].clientX;
-      pos_current.y = event.touches[0].clientY;
-    } else {
-      pos_current.x = event.clientX;
-      pos_current.y = event.clientY;
-    }
-    setRotation();
-  }
-}
-
-function setRotation () {
-  //work out current mouse angle relative to shape centre
-  let ang_current = Math.atan((pos_current.y - shape_centre.y)/(pos_current.x - shape_centre.x));
-  if(pos_current.x <= shape_centre.x) {
-    if(pos_current.y <= shape_centre.y) {
-      ang_current = Math.PI + ang_current;
-    } else {
-      ang_current = 1*Math.PI + ang_current;
-    }
-  } else {
-    if(pos_initial.y <= shape_centre.y) {
-      ang_current = 2*Math.PI + ang_current;
-    }
-  }
-
-  let ang_diff = ang_current - ang_initial;
-  //if pointer is moved backwards across rotational origin, avoid a negative difference
-  //by adding a full revolution to the difference.
-  if(ang_diff < 0) {ang_diff += 2*Math.PI;}
-  ang_initial = ang_current;
-  //rotate shape to match this...
-  let transformString = dragShape.style.transform;
-  let rotation_angle = parseInt(transformString.match(/(\d+)/)[0]);
-  rotation_angle += 360*ang_diff/(2*Math.PI);
-  dragShape.style.transform = `rotateZ(${rotation_angle}deg)`;
-
-}
 
 
 
@@ -181,9 +109,6 @@ shapeQuantity.addEventListener('click', function (event) {
 const NUMERATOR_INITIAL = 3;
 const DENOMINATOR_INITIAL = 7;
 const SHAPES_INITIAL = 1;
-
-let setHeight = 100;
-let setWidth = 100;
 
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
@@ -297,11 +222,7 @@ function reassignWheels () {
       let wheel = wheels[i];
       let containerIndex = i < halfWheels ? 0 : 1;
       shapeContainers[containerIndex].appendChild(wheel.element);
-      // if (shapes_current > shapeContainers.length) {
-      //   shapeContainers[containerIndex].classList.add('shift-up');
-      // } else {
-      //   shapeContainers[containerIndex].classList.remove('shift-up');
-      // }
+
       if(i >= shapes_current) {
         if(containerIndex == 0) {shapeContainers[1].classList.add('hide');}
       } else {
@@ -413,21 +334,74 @@ function reassignWheels () {
 }
 
 function handleResize(event) {
-  console.log('triggered');
-  setHeight = wheels[0].element.parentNode.parentNode.clientHeight;
-  setWidth = wheels[0].element.parentNode.clientWidth;
   if (!wide && event.matches) {
     wide = true;
   } else if (wide && !event.matches) {
     wide = false;
   }
-  console.log('wide:' + wide);
 }
-
 
 function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
   let angle_rad = (2*Math.PI/360)*angle;
   let x = centre.x + radius*Math.cos(angle_rad);
   let y = centre.y + radius*Math.sin(angle_rad);
   return {x, y}
+}
+
+function dragStart (event) {
+  if (event.type === 'touchstart') {
+    pos_initial.x = event.touches[0].clientX;
+    pos_initial.y = event.touches[0].clientY;
+  } else {
+    pos_initial.x = event.clientX;
+    pos_initial.y = event.clientY;
+  }
+  if (event.target.tagName === 'svg' && event.target.parentNode.classList.contains('shape')) {
+    dragging = true;
+    dragShape = event.target;
+    let bbox = dragShape.getBoundingClientRect();
+    shape_centre = {x: (bbox.left + bbox.right)/2, y: (bbox.top + bbox.bottom)/2};
+    ang_initial = calculateAngle (pos_initial, shape_centre);
+  }
+}
+
+function dragEnd (event) {
+  dragging = false;
+}
+
+function drag (event) {
+  if (dragging) {
+    event.preventDefault();
+    if (event.type === 'touchmove') {
+      pos_current.x = event.touches[0].clientX;
+      pos_current.y = event.touches[0].clientY;
+    } else {
+      pos_current.x = event.clientX;
+      pos_current.y = event.clientY;
+    }
+    setRotation();
+  }
+}
+
+function setRotation () {
+  //work out current mouse angle relative to shape centre
+
+  let ang_current = calculateAngle(pos_current, shape_centre);
+
+  let ang_diff = ang_current - ang_initial;
+  //if pointer is moved backwards across rotational origin, avoid a negative difference
+  //by adding a full revolution to the difference.
+  if(ang_diff < 0) {ang_diff += 2*Math.PI;}
+  ang_initial = ang_current;
+  //rotate shape to match this...
+  let transformString = dragShape.style.transform;
+  let rotation_angle = parseInt(transformString.match(/(\d+)/)[0]);
+  rotation_angle += 360*ang_diff/(2*Math.PI);
+  dragShape.style.transform = `rotateZ(${rotation_angle}deg)`;
+
+}
+
+function calculateAngle (positionVector, centreVector = {x: 0, y: 0}) {
+  let ang = Math.atan2(positionVector.y - centreVector.y, positionVector.x - centreVector.x);
+  return ang;
 }
