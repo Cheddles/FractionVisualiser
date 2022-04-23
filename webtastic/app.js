@@ -22,6 +22,7 @@ let shape_centre = {x: 0, y: 0};
 let ang_initial = 0;
 let dragShape;
 
+const numerals = document.getElementById('numerals');
 const numerator = document.getElementById('numerator');
 const denominator = document.getElementById('denominator');
 const numeratorSelector = document.getElementById('numerator-selector');
@@ -34,7 +35,13 @@ const shapeCircle = document.getElementById('circleButton');
 const shapeSelector = document.getElementsByClassName('shape-selector')[0];
 const shapeDisplay = document.getElementsByClassName('shape-display')[0];
 
-
+let tooltips = {
+  numeratorSelector: numerals.getElementsByClassName('tooltip')[0],
+  denominatorSelector: numerals.getElementsByClassName('tooltip')[1],
+  shapeSelector: shapeSelector.getElementsByClassName('tooltip')[0],
+  shapeAdd: shapeQuantity.getElementsByClassName('tooltip')[0],
+  shapeRemove: shapeQuantity.getElementsByClassName('tooltip')[1]
+}
 
 
 
@@ -64,6 +71,9 @@ denominatorSelector.addEventListener('input', function (event) {
 });
 
 numeratorSelector.addEventListener('input', function (event) {
+  if (!tooltips.numeratorSelector.classList.contains('tooltip-fade') && !event.automatic) {
+    tooltips.numeratorSelector.classList.add('tooltip-fade');
+  }
   let value = parseInt(event.target.value);
   setBigNumber(numerator, value);
   //also update the visuals!
@@ -130,6 +140,14 @@ for (let i = 0; i < SHAPES_MAX; i++) {
   let containerIndex = i%num_containers;
   let wheel = new Wheel(DENOMINATOR_MAX, '100%', viewboxSize, margin, shapeType);
   document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+  if (i == 0) {
+    let tip = document.createElement('span');
+    tip.classList.add('tooltip');
+    tip.classList.add('rotate-me');
+    tip.innerText = `Drag shape to rotate`;
+    wheel.element.appendChild(tip);
+  }
+
   wheels.push(wheel);
 }
 
@@ -397,6 +415,7 @@ function setSliderMaximum (slider, max) {
       slider.setAttribute('value', `${newMax}`);
     }
     let sliderInput = new Event('input', {bubbles: true, cancelable: true});
+    sliderInput.automatic = true;
     slider.dispatchEvent(sliderInput);
   }
 }
@@ -421,5 +440,6 @@ function updateSliderValue (slider, value) {
   slider.value = `${value}`;
   slider.setAttribute('value', `${value}`);
   let sliderInput = new Event('input', {bubbles: true, cancelable: true});
+  sliderInput.automatic = true;
   slider.dispatchEvent(sliderInput);
 }

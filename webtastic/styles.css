@@ -111,11 +111,16 @@ button:active {
 }
 
 .tooltip {
-  /* font-size: 3vh;
   font-weight: bold;
-  color: rgb(50,50,50); */
+  color: #666;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.tooltip-fade {
+  opacity: 0;
 }
 
 .rotate-me {
-  background-color: rgba(255,255,255,0.9);
+  /* background-color: rgba(255,255,255,0.9); */
 }
