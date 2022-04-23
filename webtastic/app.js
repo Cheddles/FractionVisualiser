@@ -1,3 +1,5 @@
+//SETUP
+
 const SHAPES_MAX = 6;
 const DENOMINATOR_MAX = 12;
 const NUMERATOR_INITIAL = 3;
@@ -47,9 +49,6 @@ window.addEventListener('resize', function (event) {
   reassignWheels();
 });
 
-
-
-
 denominatorSelector.addEventListener('input', function (event) {
   let value = parseInt(event.target.value);
   denominator_current = value;
@@ -77,9 +76,6 @@ numeratorSelector.addEventListener('input', function (event) {
   }
 });
 
-
-
-
 shapeQuantity.addEventListener('click', function (event) {
   if(event.target == shapeAdd) {
     if (shapes_current < SHAPES_MAX) {
@@ -100,6 +96,7 @@ shapeQuantity.addEventListener('click', function (event) {
 });
 
 
+//MAKING THINGS HAPPEN
 
 for (i = 0; i < num_containers; i++) {
   let sc = document.createElement('div');
@@ -124,52 +121,68 @@ let wide = false;
 handleResize(wideQuery);
 hideWheels();
 
-
-
 updateSliderValue(denominatorSelector, DENOMINATOR_INITIAL);
 updateSliderValue(numeratorSelector, NUMERATOR_INITIAL);
 
 reassignWheels();
 
 
-
 //FUNctions//
 
-function updateSliderValue (slider, value) {
-  slider.value = `${value}`;
-  slider.setAttribute('value', `${value}`);
-  let sliderInput = new Event('input', {bubbles: true, cancelable: true});
-  slider.dispatchEvent(sliderInput);
+function calculateAngle (positionVector, centreVector = {x: 0, y: 0}) {
+  let ang = Math.atan2(positionVector.y - centreVector.y, positionVector.x - centreVector.x);
+  return ang;
 }
 
-
-function setSliderMaximum (slider, max) {
-  let newMax = Math.round(max);
-  if (newMax < 1) {newMax = 1;}
-
-  let currentValue = parseInt(slider.value);
-  let min = parseInt(slider.getAttribute('min'));
-  let currentMax = parseInt(slider.getAttribute('max'));
-
-  if (newMax != currentMax) {
-    //1: set the new maximum value for the slider (if needed or valid!)
-    slider.setAttribute('max', `${newMax}`);
-
-    //2: update the current value of the slider as necessary
-    //3: trigger any necessary events to make this manifest in other places.
-    if (currentValue > newMax) {
-      slider.value = `${newMax}`;
-      slider.setAttribute('value', `${newMax}`);
-    }
-    let sliderInput = new Event('input', {bubbles: true, cancelable: true});
-    slider.dispatchEvent(sliderInput);
+function dragStart (event) {
+  if (event.type === 'touchstart') {
+    pos_initial.x = event.touches[0].clientX;
+    pos_initial.y = event.touches[0].clientY;
+  } else {
+    pos_initial.x = event.clientX;
+    pos_initial.y = event.clientY;
+  }
+  if (event.target.tagName === 'svg' && event.target.parentNode.classList.contains('shape')) {
+    dragging = true;
+    dragShape = event.target;
+    let bbox = dragShape.getBoundingClientRect();
+    shape_centre = {x: (bbox.left + bbox.right)/2, y: (bbox.top + bbox.bottom)/2};
+    ang_initial = calculateAngle (pos_initial, shape_centre);
   }
 }
 
-function setBigNumber (position, value) {
-  position.getElementsByTagName('span')[0].innerText = value;
+function dragEnd (event) {
+  dragging = false;
 }
 
+function drag (event) {
+  if (dragging) {
+    event.preventDefault();
+    if (event.type === 'touchmove') {
+      pos_current.x = event.touches[0].clientX;
+      pos_current.y = event.touches[0].clientY;
+    } else {
+      pos_current.x = event.clientX;
+      pos_current.y = event.clientY;
+    }
+    setRotation();
+  }
+}
+
+function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
+  let angle_rad = (2*Math.PI/360)*angle;
+  let x = centre.x + radius*Math.cos(angle_rad);
+  let y = centre.y + radius*Math.sin(angle_rad);
+  return {x, y}
+}
+
+function handleResize(event) {
+  if (!wide && event.matches) {
+    wide = true;
+  } else if (wide && !event.matches) {
+    wide = false;
+  }
+}
 
 function hideWheels () {
   for (let i = 0; i < wheels.length; i++) {
@@ -211,7 +224,7 @@ function reassignWheels () {
         }
       }
     } else {
-        for (let i = 0, sc = 0; i < num_wheels; i++) {
+      for (let i = 0, sc = 0; i < num_wheels; i++) {
         let wheel = wheels[i];
         let idx = i%2;
         let containerIndex = sc;
@@ -341,61 +354,36 @@ function reassignWheels () {
   }
 }
 
-function handleResize(event) {
-  if (!wide && event.matches) {
-    wide = true;
-  } else if (wide && !event.matches) {
-    wide = false;
-  }
+function setBigNumber (position, value) {
+  position.getElementsByTagName('span')[0].innerText = value;
 }
 
-function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
-  let angle_rad = (2*Math.PI/360)*angle;
-  let x = centre.x + radius*Math.cos(angle_rad);
-  let y = centre.y + radius*Math.sin(angle_rad);
-  return {x, y}
-}
+function setSliderMaximum (slider, max) {
+  let newMax = Math.round(max);
+  if (newMax < 1) {newMax = 1;}
 
-function dragStart (event) {
-  if (event.type === 'touchstart') {
-    pos_initial.x = event.touches[0].clientX;
-    pos_initial.y = event.touches[0].clientY;
-  } else {
-    pos_initial.x = event.clientX;
-    pos_initial.y = event.clientY;
-  }
-  if (event.target.tagName === 'svg' && event.target.parentNode.classList.contains('shape')) {
-    dragging = true;
-    dragShape = event.target;
-    let bbox = dragShape.getBoundingClientRect();
-    shape_centre = {x: (bbox.left + bbox.right)/2, y: (bbox.top + bbox.bottom)/2};
-    ang_initial = calculateAngle (pos_initial, shape_centre);
-  }
-}
+  let currentValue = parseInt(slider.value);
+  let min = parseInt(slider.getAttribute('min'));
+  let currentMax = parseInt(slider.getAttribute('max'));
 
-function dragEnd (event) {
-  dragging = false;
-}
+  if (newMax != currentMax) {
+    //1: set the new maximum value for the slider (if needed or valid!)
+    slider.setAttribute('max', `${newMax}`);
 
-function drag (event) {
-  if (dragging) {
-    event.preventDefault();
-    if (event.type === 'touchmove') {
-      pos_current.x = event.touches[0].clientX;
-      pos_current.y = event.touches[0].clientY;
-    } else {
-      pos_current.x = event.clientX;
-      pos_current.y = event.clientY;
+    //2: update the current value of the slider as necessary
+    //3: trigger any necessary events to make this manifest in other places.
+    if (currentValue > newMax) {
+      slider.value = `${newMax}`;
+      slider.setAttribute('value', `${newMax}`);
     }
-    setRotation();
+    let sliderInput = new Event('input', {bubbles: true, cancelable: true});
+    slider.dispatchEvent(sliderInput);
   }
 }
 
 function setRotation () {
   //work out current mouse angle relative to shape centre
-
   let ang_current = calculateAngle(pos_current, shape_centre);
-
   let ang_diff = ang_current - ang_initial;
   //if pointer is moved backwards across rotational origin, avoid a negative difference
   //by adding a full revolution to the difference.
@@ -406,10 +394,12 @@ function setRotation () {
   let rotation_angle = parseInt(transformString.match(/(\d+)/)[0]);
   rotation_angle += 360*ang_diff/(2*Math.PI);
   dragShape.style.transform = `rotateZ(${rotation_angle}deg)`;
-
 }
 
-function calculateAngle (positionVector, centreVector = {x: 0, y: 0}) {
-  let ang = Math.atan2(positionVector.y - centreVector.y, positionVector.x - centreVector.x);
-  return ang;
+
+function updateSliderValue (slider, value) {
+  slider.value = `${value}`;
+  slider.setAttribute('value', `${value}`);
+  let sliderInput = new Event('input', {bubbles: true, cancelable: true});
+  slider.dispatchEvent(sliderInput);
 }
