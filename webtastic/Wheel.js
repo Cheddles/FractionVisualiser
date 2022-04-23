@@ -1,4 +1,4 @@
-function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'circle') {
+function Wheel (num_sectors = 12, size = '100%', vbSize = 200, margin = 5, shape = 'circle') {
 
   //create DOM presence
   this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -6,8 +6,6 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'circle')
   this.svg.setAttribute('width', `${size}`);
   // this.svg.setAttribute('height', `${size}`);
   this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
-  this.svg.style.transform = 'rotateZ(0deg)';
-  this.viewboxSize = vbSize;
   //associated 'shape' element in DOM
   this.shapeType = shape;
   this.element = document.createElement('div');
@@ -19,12 +17,15 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, shape = 'circle')
     this.element.classList.add('square');
   }
 
+  this.element.style.transform = 'rotateZ(0deg)';
   this.element.appendChild(this.svg);
 
   //needs own collection of sectors (up to max-denominator value)
+  this.viewboxSize = vbSize;
+  this.margin = margin;
   this.sectors = [];
   for (let i = 0; i < num_sectors; i++) {
-    let newSector = new Sector();
+    let newSector = new Sector(this.viewboxSize, this.margin);
     this.sectors.push(newSector);
     this.svg.append(newSector.path);
   }
@@ -68,12 +69,22 @@ Wheel.prototype.draw = function () {
     let thisSector = this.sectors[i];
     if (thisSector.active) {
       if (this.shapeType == 'square') {
-        thisSector.path.style.transform = `translateY(${this.viewboxSize - 10 - (sectorCount+1)*thisSector.disp}px)`;
+        thisSector.path.style.transform = `translateY(${this.viewboxSize - (2*this.margin) - (sectorCount+1)*thisSector.disp}px)`;
       } else {
         thisSector.path.style.transform = `rotateZ(${sectorCount*thisSector.angle}deg)`;
       }
       sectorCount++;
     }
     thisSector.draw();
+  }
+}
+
+Wheel.prototype.changeShape = function (shape) {
+  if(shape === 'circle' || shape === 'square') {
+    this.shapeType = shape;
+    this.element.classList.remove('circle');
+    this.element.classList.remove('square');
+    this.element.classList.add(shape);
+    this.adjustDivisions(this.divisions);
   }
 }

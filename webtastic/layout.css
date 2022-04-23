@@ -132,6 +132,7 @@ path {
 .square {
   /* padding: 3%; */
   /* transform: scale(0.7); */
+  max-width: 70%;
 }
 
 

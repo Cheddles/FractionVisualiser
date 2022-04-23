@@ -6,6 +6,7 @@ const NUMERATOR_INITIAL = 3;
 const DENOMINATOR_INITIAL = 7;
 const SHAPES_INITIAL = 1;
 const viewboxSize = 200;
+const margin = 0;
 const wheels = [];
 const num_containers = SHAPES_MAX/2;
 
@@ -95,6 +96,25 @@ shapeQuantity.addEventListener('click', function (event) {
   setSliderMaximum(numeratorSelector, shapes_current*parseInt(denominatorSelector.value));
 });
 
+shapeSelector.addEventListener('click', function (event) {
+  let changed = false;
+
+  if(event.target == shapeCircle && shapeType === 'square') {
+    changed = true;
+    shapeType = 'circle';
+  } else if(event.target == shapeSquare && shapeType === 'circle') {
+    changed = true;
+    shapeType = 'square';
+  }
+
+  if (changed) {
+    for (let i = 0, l = wheels.length; i < l; i++) {
+      wheels[i].changeShape(shapeType);
+      wheels[i].draw();
+    }
+  }
+});
+
 
 //MAKING THINGS HAPPEN
 
@@ -108,7 +128,7 @@ for (i = 0; i < num_containers; i++) {
 for (let i = 0; i < SHAPES_MAX; i++) {
   //generate Wheels and append to alternating shape-containers
   let containerIndex = i%num_containers;
-  let wheel = new Wheel;
+  let wheel = new Wheel(DENOMINATOR_MAX, '100%', viewboxSize, margin, shapeType);
   document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
   wheels.push(wheel);
 }
@@ -169,7 +189,7 @@ function drag (event) {
   }
 }
 
-function findCoordsFromAngle(angle, radius = (viewboxSize/2 - 5), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
+function findCoordsFromAngle(angle, radius = (viewboxSize/2 - margin), centre = {x: viewboxSize/2, y: viewboxSize/2}) {
   let angle_rad = (2*Math.PI/360)*angle;
   let x = centre.x + radius*Math.cos(angle_rad);
   let y = centre.y + radius*Math.sin(angle_rad);
@@ -390,10 +410,10 @@ function setRotation () {
   if(ang_diff < 0) {ang_diff += 2*Math.PI;}
   ang_initial = ang_current;
   //rotate shape to match this...
-  let transformString = dragShape.style.transform;
+  let transformString = dragShape.parentNode.style.transform;
   let rotation_angle = parseInt(transformString.match(/(\d+)/)[0]);
   rotation_angle += 360*ang_diff/(2*Math.PI);
-  dragShape.style.transform = `rotateZ(${rotation_angle}deg)`;
+  dragShape.parentNode.style.transform = `rotateZ(${rotation_angle}deg)`;
 }
 
 
