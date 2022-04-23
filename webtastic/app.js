@@ -35,13 +35,6 @@ const shapeCircle = document.getElementById('circleButton');
 const shapeSelector = document.getElementsByClassName('shape-selector')[0];
 const shapeDisplay = document.getElementsByClassName('shape-display')[0];
 
-let tooltips = {
-  numeratorSelector: numerals.getElementsByClassName('tooltip')[0],
-  denominatorSelector: numerals.getElementsByClassName('tooltip')[1],
-  shapeSelector: shapeSelector.getElementsByClassName('tooltip')[0],
-  shapeAdd: shapeQuantity.getElementsByClassName('tooltip')[0],
-  shapeRemove: shapeQuantity.getElementsByClassName('tooltip')[1]
-}
 
 
 
@@ -58,6 +51,7 @@ window.addEventListener('resize', function (event) {
 });
 
 denominatorSelector.addEventListener('input', function (event) {
+  fadeTooltip('denominatorSelector');
   let value = parseInt(event.target.value);
   denominator_current = value;
   setSliderMaximum(numeratorSelector, shapes_current*value);
@@ -71,9 +65,7 @@ denominatorSelector.addEventListener('input', function (event) {
 });
 
 numeratorSelector.addEventListener('input', function (event) {
-  if (!tooltips.numeratorSelector.classList.contains('tooltip-fade') && !event.automatic) {
-    tooltips.numeratorSelector.classList.add('tooltip-fade');
-  }
+  fadeTooltip('numeratorSelector');
   let value = parseInt(event.target.value);
   setBigNumber(numerator, value);
   //also update the visuals!
@@ -90,11 +82,13 @@ numeratorSelector.addEventListener('input', function (event) {
 shapeQuantity.addEventListener('click', function (event) {
   if(event.target == shapeAdd) {
     if (shapes_current < SHAPES_MAX) {
+      fadeTooltip('shapeAdd');
       shapes_current++;
     }
   }
   if(event.target == shapeRemove) {
     if (shapes_current > 1) {
+      fadeTooltip('shapeRemove');
       shapes_current--;
     }
   }
@@ -108,7 +102,6 @@ shapeQuantity.addEventListener('click', function (event) {
 
 shapeSelector.addEventListener('click', function (event) {
   let changed = false;
-
   if(event.target == shapeCircle && shapeType === 'square') {
     changed = true;
     shapeType = 'circle';
@@ -118,10 +111,12 @@ shapeSelector.addEventListener('click', function (event) {
   }
 
   if (changed) {
+    fadeTooltip('shapeSelector');
     for (let i = 0, l = wheels.length; i < l; i++) {
       wheels[i].changeShape(shapeType);
       wheels[i].draw();
     }
+    reassignWheels();
   }
 });
 
@@ -149,6 +144,16 @@ for (let i = 0; i < SHAPES_MAX; i++) {
   }
 
   wheels.push(wheel);
+}
+
+
+let tooltips = {
+  numeratorSelector: numerals.getElementsByClassName('tooltip')[0],
+  denominatorSelector: numerals.getElementsByClassName('tooltip')[1],
+  shapeSelector: shapeSelector.getElementsByClassName('tooltip')[0],
+  shapeAdd: shapeQuantity.getElementsByClassName('tooltip')[1],
+  shapeRemove: shapeQuantity.getElementsByClassName('tooltip')[0],
+  shapeDisplay: shapeDisplay.getElementsByClassName('tooltip')[0]
 }
 
 
@@ -181,6 +186,7 @@ function dragStart (event) {
     pos_initial.y = event.clientY;
   }
   if (event.target.tagName === 'svg' && event.target.parentNode.classList.contains('shape')) {
+    fadeTooltip('shapeDisplay');
     dragging = true;
     dragShape = event.target;
     let bbox = dragShape.getBoundingClientRect();
@@ -204,6 +210,12 @@ function drag (event) {
       pos_current.y = event.clientY;
     }
     setRotation();
+  }
+}
+
+function fadeTooltip(elementName) {
+  if (!tooltips[elementName].classList.contains('tooltip-fade') && !event.automatic) {
+    tooltips[elementName].classList.add('tooltip-fade');
   }
 }
 
@@ -276,6 +288,9 @@ function reassignWheels () {
       }
     }
   } else {
+    for (let i = 2, l = shapeContainers.length; i < l; i++) {
+      shapeContainers[i].classList.add('hide');
+    }
     let halfWheels = Math.ceil(num_wheels/2);
     for (let i = 0; i < num_wheels; i++) {
       let wheel = wheels[i];
@@ -302,7 +317,8 @@ function reassignWheels () {
   let displayWidth = bbox.width;
   let displayHeight = bbox.height;
   if(shapeType == 'square') {
-    console.log('L7');
+    displayWidth *= 0.9;
+    displayHeight *= 0.9;
 
   }
 
@@ -389,6 +405,13 @@ function reassignWheels () {
     } else {
       wheels[i].svg.setAttribute('height', heightTarget);
     }
+  }
+}
+
+function restoreTooltips () {
+  for (let tt in tooltips) {
+    let tooltip = tooltips[tt];
+    tooltip.classList.remove('tooltip-fade');
   }
 }
 
