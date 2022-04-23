@@ -26,29 +26,13 @@ const denominatorSelector = document.getElementById('denominator-selector');
 const shapeAdd = document.getElementById('shape-add');
 const shapeRemove = document.getElementById('shape-remove');
 const shapeQuantity = document.getElementsByClassName('shape-quantity')[0];
+const shapeSquare = document.getElementById('squareButton');
+const shapeCircle = document.getElementById('circleButton');
+const shapeSelector = document.getElementsByClassName('shape-selector')[0];
+const shapeDisplay = document.getElementsByClassName('shape-display')[0];
 
 
 
-let shapeDisplay = document.getElementsByClassName('shape-display')[0];
-for (i = 0; i < num_containers; i++) {
-  let sc = document.createElement('div');
-  sc.classList.add('shape-container');
-  if (i > 0) {sc.classList.add('hide');}
-  shapeDisplay.appendChild(sc);
-}
-
-for (let i = 0; i < SHAPES_MAX; i++) {
-  //generate Wheels and append to alternating shape-containers
-  let containerIndex = i%num_containers;
-  let wheel = new Wheel;
-  document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
-  wheels.push(wheel);
-}
-
-
-const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
-wideQuery.addListener(handleResize);
-let wide = false;
 
 
 window.addEventListener('touchstart', dragStart, false);
@@ -94,6 +78,8 @@ numeratorSelector.addEventListener('input', function (event) {
 });
 
 
+
+
 shapeQuantity.addEventListener('click', function (event) {
   if(event.target == shapeAdd) {
     if (shapes_current < SHAPES_MAX) {
@@ -114,6 +100,26 @@ shapeQuantity.addEventListener('click', function (event) {
 });
 
 
+
+for (i = 0; i < num_containers; i++) {
+  let sc = document.createElement('div');
+  sc.classList.add('shape-container');
+  if (i > 0) {sc.classList.add('hide');}
+  shapeDisplay.appendChild(sc);
+}
+
+for (let i = 0; i < SHAPES_MAX; i++) {
+  //generate Wheels and append to alternating shape-containers
+  let containerIndex = i%num_containers;
+  let wheel = new Wheel;
+  document.getElementsByClassName('shape-container')[containerIndex].appendChild(wheel.element);
+  wheels.push(wheel);
+}
+
+
+const wideQuery = window.matchMedia('(orientation: landscape) and (min-aspect-ratio: 16/9), (orientation: portrait) and (min-aspect-ratio: 5/11)');
+wideQuery.addListener(handleResize);
+let wide = false;
 
 handleResize(wideQuery);
 hideWheels();
