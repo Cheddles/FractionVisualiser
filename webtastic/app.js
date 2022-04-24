@@ -80,7 +80,7 @@ numeratorSelector.addEventListener('input', function (event) {
 });
 
 shapeQuantity.addEventListener('click', function (event) {
-  if(event.target == shapeAdd) {
+if(event.target == shapeAdd) {
     if (shapes_current < SHAPES_MAX) {
       fadeTooltip('shapeAdd');
       shapes_current++;
@@ -92,6 +92,19 @@ shapeQuantity.addEventListener('click', function (event) {
       shapes_current--;
     }
   }
+
+  if (shapes_current >= SHAPES_MAX) {
+    shapeAdd.disabled = true;
+  } else {
+    shapeAdd.disabled = false;
+  }
+
+  if (shapes_current <= 1) {
+    shapeRemove.disabled = true;
+  } else {
+    shapeRemove.disabled = false;
+  }
+
   //shift wheels to different containers for best display
   reassignWheels();
   //change visibility state on new shape and shape-containers
@@ -146,6 +159,17 @@ for (let i = 0; i < SHAPES_MAX; i++) {
   wheels.push(wheel);
 }
 
+if (shapes_current <= 1) {
+  shapeRemove.disabled = true;
+} else {
+  shapeRemove.disabled = false;
+}
+
+if (shapes_current >= SHAPES_MAX) {
+  shapeAdd.disabled = true;
+} else {
+  shapeAdd.disabled = false;
+}
 
 let tooltips = {
   numeratorSelector: numerals.getElementsByClassName('tooltip')[0],

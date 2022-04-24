@@ -110,6 +110,11 @@ button:active {
     /* -webkit-text-stroke: 5px #0053ba; */
 }
 
+.number-button:disabled {
+  color: #999;
+  text-shadow: none;
+}
+
 .tooltip {
   font-weight: bold;
   color: #666;
@@ -123,4 +128,16 @@ button:active {
 
 .rotate-me {
   /* background-color: rgba(255,255,255,0.9); */
+}
+
+@media (orientation: landscape) {
+  .tooltip {
+    font-size: 1.5vw;
+  }
+}
+
+@media (orientation: portrait) {
+  .tooltip {
+    font-size: 1.8vh;
+  }
 }
