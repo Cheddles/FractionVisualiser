@@ -46,6 +46,11 @@ path.filled {
   /* background: linear-gradient(135deg, rgba(255,41,239,1) 0%, rgba(252,192,88,1) 100%); */
 }
 
+.fraction-bar {
+  backgroud-color: black;
+}
+
+
 button {
     display: inline-block;
     border: 1px solid black;
@@ -89,7 +94,7 @@ button:active {
   user-select: none;
   border: none;
   background: none;
-  font-size: 5vh;
+  font-size: 3vh;
   color: black;
   box-shadow:none;
   text-shadow:3px 3px 5px rgba(0,0,0,0.7);

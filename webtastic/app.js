@@ -371,7 +371,7 @@ function reassignWheels () {
     //3 shapes (side-by-side and over-under): depends on the aspect ratio.
     if (shapes_current > shapeContainers.length) {
       heightTarget = displayHeight/2;
-      widthTarget = displayWidth/(shapeContainersInUse);
+      widthTarget = displayWidth/(Math.ceil(num_wheels/2));
       if(widthTarget > heightTarget) {
         widthTarget = 'none';
       } else {
