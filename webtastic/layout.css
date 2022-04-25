@@ -30,19 +30,20 @@ body {
   margin: 2%;
 }
 
+path {
+  pointer-events: none;
+}
+
 .rotate-me {
   position: fixed;
-  height: calc(100% + 4em);
+  height: calc(100% + 6rem);
+  transform-origin: 50% 50%;
   transform: rotateZ(-90deg);
   pointer-events: none;
 }
 
 .tooltip {
   text-align: center;
-}
-
-.hide {
-  display: none;
 }
 
 @media (orientation: portrait) {
@@ -117,27 +118,32 @@ body {
 
   .shape-container {
     display: flex;
+    width: 100%;
     flex-direction: row;
     justify-content: space-around;
   }
 
   .shape {
-    width: fit-content;
-    height: fit-content;
+    /* width: fit-content; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+    cursor:pointer;
   }
 
   .shape svg {
-    max-height: fit-content;
-    max-width: fit-content;
+    max-height: 100%;
+    max-width: 100%;
   }
 
   #shapes button {
     height: 4vh;
     width: 4vh;
   }
+}
 
-  path {
-    pointer-events: none;
-  }
-
+.hide {
+  display: none;
 }
