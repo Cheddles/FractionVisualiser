@@ -225,6 +225,12 @@ path {
   }
 }
 
+@media (max-aspect-ratio: 5/11) {
+  .tooltip {
+    font-size: 4vw;
+  }
+}
+
 .hide {
   display: none;
 }
