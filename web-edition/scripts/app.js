@@ -141,7 +141,7 @@ aboutButton.addEventListener('click', function(event) {
 });
 
 modal.addEventListener('click', closeModal);
-
+restoreTT.addEventListener('click', restoreTooltips);
 
 //MAKING THINGS HAPPEN
 
@@ -211,8 +211,10 @@ function calculateAngle (positionVector, centreVector = {x: 0, y: 0}) {
 }
 
 function closeModal (event) {
+  if(event.target === modal || event.target == modal.getElementsByTagName('button')[0]) {
     document.getElementById('main').classList.toggle('invert');
     modal.parentNode.classList.add('hide');
+  }
 }
 
 function dragStart (event) {
