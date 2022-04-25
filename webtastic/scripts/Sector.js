@@ -1,7 +1,6 @@
 function Sector (vbSize = 200, margin = 5, divisions = 1) {
   //establish DOM presence
   this.path = document.createElementNS('http://www.w3.org/2000/svg','path');
-  // this.path.setAttribute('transform-origin',`${(vbSize /2)} ${(vbSize /2)}`);
   this.path.style.transformOrigin = '50% 50%';
 
   //track state
@@ -10,23 +9,22 @@ function Sector (vbSize = 200, margin = 5, divisions = 1) {
   this.viewboxSize = vbSize;
   this.margin = margin;
   this.marginOld = margin;
-
   this.adjustSize(divisions);
 }
 
 Sector.prototype.adjustSize = function (division, shape = 'circle') {
-  //change angular width of a sector (for circle mode) and generate markup
   if(shape == 'circle') {
     this.margin = this.marginOld + 0.6;
   } else {
     this.margin = this.marginOld;
   }
+  //change angular width of a sector (for circle mode) and generate markup
   this.angle = 360/division;
+  //change width of sector (for square mode) and generate markup
   this.disp = (this.viewboxSize - (4*this.margin))/division;
   let d = this.generateSectorMarkup(division);
   this.path.setAttribute('d', d[shape]);
 
-  //change width of sector (for square mode) and generate markup
 }
 
 Sector.prototype.draw = function () {
@@ -54,6 +52,7 @@ Sector.prototype.generateSectorMarkup = function (division) {
     L ${this.viewboxSize/2} ${this.viewboxSize/2} Z
     `;
 
+    //if it's a full circle, draw instead as two separate arcs without a line to the centre
     if (thisAngle == 0) {
       let middleCoords = this.findCoordsFromAngle(180);
       circle = `
@@ -75,7 +74,6 @@ Sector.prototype.generateSectorMarkup = function (division) {
     return {circle, square};
 
 }
-
 
 Sector.prototype.findCoordsFromAngle = function(angle, radius = (this.viewboxSize/2 - this.margin), centre = {x: this.viewboxSize/2, y: this.viewboxSize/2}) {
   let angle_rad = (2*Math.PI/360)*angle;

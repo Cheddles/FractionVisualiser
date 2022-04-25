@@ -1,14 +1,13 @@
 function Wheel (num_sectors = 12, size = '100%', vbSize = 200, margin = 5, shape = 'circle') {
 
   //create DOM presence
+  //First - the SVG
   this.svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   this.svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   this.svg.setAttribute('width', `${size}`);
-  // this.svg.setAttribute('height', `${size}`);
   this.svg.setAttribute('viewBox', `0 0 ${vbSize} ${vbSize}`);
-  //associated 'shape' element in DOM
+  //Next- the associated 'shape' element in DOM
   this.shapeType = shape;
-
   this.element = document.createElement('div');
   this.element.classList.add('shape');
   if(this.shapeType === 'circle') {
@@ -22,7 +21,7 @@ function Wheel (num_sectors = 12, size = '100%', vbSize = 200, margin = 5, shape
   this.element.appendChild(this.svg);
 
 
-  //needs own collection of sectors (up to max-denominator value)
+  //needs own collection of Sectors (up to max-denominator value)
   this.viewboxSize = vbSize;
   this.margin = margin;
   this.sectors = [];

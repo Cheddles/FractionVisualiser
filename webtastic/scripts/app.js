@@ -5,17 +5,17 @@ const DENOMINATOR_MAX = 12;
 const NUMERATOR_INITIAL = 3;
 const DENOMINATOR_INITIAL = 7;
 const SHAPES_INITIAL = 1;
-const viewboxSize = 200;
+const viewboxSize = 200; //the SVG size (in its own arbitrary dimensions)
 const margin = 0;
 const wheels = [];
-const num_containers = SHAPES_MAX/2;
+const num_containers = SHAPES_MAX/2; //how many shape containers are needed?
 
 let shapes_current = SHAPES_INITIAL;
 let numerator_current = NUMERATOR_INITIAL;
 let denominator_current = DENOMINATOR_INITIAL;
 let shapeType = 'circle';
 
-let dragging = false;
+let dragging = false; //these are all associated with managing shape rotation by user
 let pos_current = {x: 0, y: 0};
 let pos_initial = {x: 0, y: 0};
 let shape_centre = {x: 0, y: 0};
@@ -279,6 +279,7 @@ function reassignWheels () {
     }
   }
 
+  //hide/show shape-containers based on whether they have active wheels inside
   let num_wheels = wheels.length;
   if(!wide) {
     if (shapes_current < 3) {
@@ -336,14 +337,14 @@ function reassignWheels () {
     }
   }
 
-
+  //discover displayed size of shapeDisplay element in order to scale shapes correctly
   let bbox = document.getElementsByClassName('shape-display')[0].getBoundingClientRect();
   let displayWidth = bbox.width;
   let displayHeight = bbox.height;
+  //scale the available space a little bit for squares
   if(shapeType == 'square') {
     displayWidth *= 0.9;
     displayHeight *= 0.9;
-
   }
 
   let  heightTarget = displayHeight;
@@ -462,7 +463,7 @@ function setSliderMaximum (slider, max) {
       slider.setAttribute('value', `${newMax}`);
     }
     let sliderInput = new Event('input', {bubbles: true, cancelable: true});
-    sliderInput.automatic = true;
+    sliderInput.automatic = true; //want to distinguish between automatic and human input for tooltip display
     slider.dispatchEvent(sliderInput);
   }
 }
@@ -471,8 +472,7 @@ function setRotation () {
   //work out current mouse angle relative to shape centre
   let ang_current = calculateAngle(pos_current, shape_centre);
   let ang_diff = ang_current - ang_initial;
-  //if pointer is moved backwards across rotational origin, avoid a negative difference
-  //by adding a full revolution to the difference.
+  //if angle goes below zero, add a full rotation to keep angle difference positive.
   if(ang_diff < 0) {ang_diff += 2*Math.PI;}
   ang_initial = ang_current;
   //rotate shape to match this...

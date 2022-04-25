@@ -150,8 +150,6 @@ button:active {
 }
 
 @media (orientation: portrait) {
-
-
   .tooltip {
     font-size: 1.8vh;
   }
