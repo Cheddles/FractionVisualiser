@@ -1,6 +1,10 @@
 /* This is to be mostly for setting properties that don't affect layout. */
 /* Most layout changes here will be overridden by styles.css             */
 
+html {
+  font-family: sans-serif;
+}
+
 path {
   fill: none;
   stroke: none;
