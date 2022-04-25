@@ -41,6 +41,10 @@ body {
 
 }
 
+.number-big {
+  user-select: none;
+}
+
 #fraction {
   display: flex;
   flex-direction: column;
@@ -90,13 +94,6 @@ path {
   pointer-events: none;
 }
 
-.rotate-me {
-  position: fixed;
-  height: calc(100% + 6rem);
-  transform-origin: 50% 50%;
-  transform: rotateZ(-90deg);
-  pointer-events: none;
-}
 
 .tooltip {
   text-align: center;
@@ -110,6 +107,19 @@ path {
   width: 100%;
 }
 
+.rotate-me {
+  position: fixed;
+  height: calc(100% + 6rem);
+  transform-origin: 50% 50%;
+  transform: rotateZ(-90deg);
+  pointer-events: none;
+}
+
+#aboutButton {
+  position: absolute;
+  font-size: 3em;
+  bottom: 1%;
+}
 @media (orientation: portrait) {
   #main {
     flex-direction: column;
