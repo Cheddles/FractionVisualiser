@@ -37,6 +37,7 @@ const shapeDisplay = document.getElementsByClassName('shape-display')[0];
 const aboutButton = document.getElementById('aboutButton');
 const modal = document.getElementsByClassName('modal')[0];
 const restoreTT = document.getElementById('restore-tt');
+const invertColours = document.getElementById('invert-colours');
 
 window.addEventListener('touchstart', dragStart, false);
 window.addEventListener('touchend', dragEnd, false);
@@ -142,7 +143,9 @@ aboutButton.addEventListener('click', function(event) {
 
 modal.addEventListener('click', closeModal);
 restoreTT.addEventListener('click', restoreTooltips);
-
+invertColours.addEventListener('click', function (event) {
+  document.getElementById('main').classList.toggle('invert');
+});
 //MAKING THINGS HAPPEN
 
 for (i = 0; i < num_containers; i++) {
