@@ -54,6 +54,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 2;
 }
 
 .shape-display {
@@ -148,7 +149,7 @@ path {
   }
 
   .shape-display {
-    height: 80%;
+    height: 75%;
     width: 100%;
   }
 
