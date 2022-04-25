@@ -67,12 +67,17 @@ along with FractionVisualiser.  If not, see <http://www.gnu.org/licenses/>.  -->
         </div>
       </div>
       <button id="aboutButton" class="number-button">?</button>
-      <div class="modal-container">
+      <div class="modal-container hide">
         <div class="modal">
           <div class="modal-content">
             <h1>Fraction Visualiser</h1>
-            <p>by Tristan Curry 2022, based on software by Chris Heddles 2014</p>
-            <p>Full source repository at <a href="https://github.com/Cheddles/FractionVisualiser">https://github.com/Cheddles/FractionVisualiser</p>
+            <p>by Tristan Curry, 2022. Based on software by Chris Heddles, 2014.</p>
+            <p>Full source repository at <a href="https://github.com/Cheddles/FractionVisualiser">https://github.com/Cheddles/FractionVisualiser</a></p>
+            <p>Released under the  <a href="http://www.gnu.org/licenses/">GNU General Public License version 3</a></p>
+            <button>Okay</button><button id="restore-tt" onclick=" (event) => {
+              event.stopPropagation();
+              restoreTT();
+            }">Reset hints</button>
             </div>
           </div>
       </div>

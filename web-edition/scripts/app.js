@@ -34,9 +34,9 @@ const shapeSquare = document.getElementById('squareButton');
 const shapeCircle = document.getElementById('circleButton');
 const shapeSelector = document.getElementsByClassName('shape-selector')[0];
 const shapeDisplay = document.getElementsByClassName('shape-display')[0];
-
-
-
+const aboutButton = document.getElementById('aboutButton');
+const modal = document.getElementsByClassName('modal')[0];
+const restoreTT = document.getElementById('restore-tt');
 
 window.addEventListener('touchstart', dragStart, false);
 window.addEventListener('touchend', dragEnd, false);
@@ -133,6 +133,15 @@ shapeSelector.addEventListener('click', function (event) {
   }
 });
 
+aboutButton.addEventListener('click', function(event) {
+  //make 'about box' visible
+  let modalCont = document.getElementsByClassName('modal-container')[0];
+  modalCont.classList.remove('hide');
+  document.getElementById('main').classList.toggle('invert');
+});
+
+modal.addEventListener('click', closeModal);
+
 
 //MAKING THINGS HAPPEN
 
@@ -199,6 +208,11 @@ reassignWheels();
 function calculateAngle (positionVector, centreVector = {x: 0, y: 0}) {
   let ang = Math.atan2(positionVector.y - centreVector.y, positionVector.x - centreVector.x);
   return ang;
+}
+
+function closeModal (event) {
+    document.getElementById('main').classList.toggle('invert');
+    modal.parentNode.classList.add('hide');
 }
 
 function dragStart (event) {

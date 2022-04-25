@@ -26,6 +26,7 @@ body {
   display: flex;
   width: 100%;
   height: 100%;
+  transition: filter 0.5s ease-out;
 }
 
 #numerals, #shapes {
@@ -132,7 +133,7 @@ path {
 }
 
 .modal-container {
-  display:none;
+
 }
 
 .modal {
@@ -146,7 +147,7 @@ path {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.7);
+  /* background-color: rgba(0,0,0,0.7); */
 }
 
 .modal-content {
@@ -161,6 +162,9 @@ path {
   border-style: double;
 }
 
+.invert {
+  filter:invert(100%);
+}
 
 
 @media (orientation: portrait) {
