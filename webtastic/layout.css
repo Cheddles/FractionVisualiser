@@ -33,11 +33,12 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 #numerals {
-  padding-top: 2%;
-  padding-bottom: 2%;
+
 }
 
 #fraction {
@@ -147,7 +148,7 @@ path {
   }
 
   .shape-display {
-    height: 84%;
+    height: 80%;
     width: 100%;
   }
 
