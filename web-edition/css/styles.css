@@ -1,0 +1,162 @@
+/* This is to be mostly for setting properties that don't affect layout. */
+/* Most layout changes here will be overridden by styles.css             */
+
+html {
+  font-family: sans-serif;
+}
+
+path {
+  fill: none;
+  stroke: none;
+  stroke-linejoin: bevel;
+}
+
+path.active {
+  /* display: initial; */
+  stroke: black;
+}
+
+path.filled {
+  fill: green;
+}
+
+#viewport {
+  /* border: 1px solid black; */
+}
+
+#numerals, #shapes {
+  /* border: 1px solid black; */
+}
+
+.number-big {
+  font-family: serif;
+}
+
+.fraction-bar {
+  background: black;
+}
+
+.shape-container {
+  /* border: 1px solid black; */
+}
+
+.shape {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+  /* filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 1)); */
+}
+
+#main {
+  background: rgb(255,255,255);
+  /* background: linear-gradient(135deg, rgba(255,41,239,1) 0%, rgba(252,192,88,1) 100%); */
+}
+
+.fraction-bar {
+  backgroud-color: black;
+}
+
+
+button {
+    display: inline-block;
+    border: 1px solid black;
+    margin: 0;
+    text-decoration: none;
+    background: #0069ed;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out,
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.7);
+}
+
+button:hover,
+button:focus {
+    background: #0053ba;
+}
+
+button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+#circleButton {
+  border-radius: 50%;
+}
+
+#squareButton, #circleButton {
+}
+
+.number-button {
+  user-select: none;
+  border: none;
+  background: none;
+  font-size: 3vh;
+  color: black;
+  box-shadow:none;
+  text-shadow:3px 3px 5px rgba(0,0,0,0.7);
+}
+
+.number-button:hover {
+  color: #0053ba;
+  background: none;
+}
+
+.number-button:focus {
+  background: none;
+  outline: unset;
+  outline-offset: unset;
+}
+
+.number-button:active {
+    /* -webkit-text-stroke: 5px #0053ba; */
+}
+
+.number-button:disabled {
+  color: #999;
+  text-shadow: none;
+}
+
+.tooltip {
+  font-weight: bold;
+  color: #666;
+  opacity: 1;
+  transition: opacity 2s ease-out;
+}
+
+.tooltip-fade {
+  opacity: 0;
+}
+
+.rotate-me {
+  /* background-color: rgba(255,255,255,0.9); */
+}
+
+#aboutButton {
+  color: #999;
+  text-shadow: none;
+  /* border-radius: 50%; */
+}
+
+@media (orientation: landscape) {
+  .tooltip {
+    font-size: 1.5vw;
+  }
+
+  .number-button {
+    font-size: 5vh;
+  }
+}
+
+@media (orientation: portrait) {
+  .tooltip {
+    font-size: 1.8vh;
+  }
+}

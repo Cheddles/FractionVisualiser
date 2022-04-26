@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- FractionVisualiser (Web edition)
+ by Tristan Curry, 2022
+ Based entirely on original software by Chris Heddles, 2014
+ Full source repository is at <https://github.com/Cheddles/FractionVisualiser> -->
+
+<!-- This file is part of FractionVisualiser.
+ FractionVisualiser is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ FractionVisualiser is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with FractionVisualiser.  If not, see <http://www.gnu.org/licenses/>.  -->
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Tristan Curry">
+    <meta name="description" content="A lightweight way to visualise fractions as numerator and denominator are changed with sliders.">
+    <meta name="license" content="GPL 3.0">
+    <title>Fraction Visualiser</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/layout.css">
+  </head>
+  <body>
+    <div id="viewport">
+      <div id="main">
+        <div id="numerals">
+          <span class="tooltip">Drag to adjust value</span>
+          <input id="numerator-selector" class="number-selector" type="range" value="3" step="1" min="0" max="14"/>
+          <div id="fraction">
+            <div id="numerator" class="number-big">
+              <span>3</span>
+            </div>
+            <div class="fraction-bar">
+            </div>
+            <div id="denominator" class="number-big">
+              <span>7</span>
+            </div>
+          </div>
+          <input id="denominator-selector" class="number-selector" type="range" value="7" step="1" min="1" max="12"/>
+          <span class="tooltip">Drag to adjust value</span>
+        </div>
+        <div id="shapes">
+          <div class="shape-selector">
+            <button type="button" id="squareButton"></button>
+              <span class="tooltip">Select the shape you want to use</span>
+            <button type="button" id="circleButton"></button>
+          </div>
+          <div class="shape-display">
+          </div>
+          <div class="shape-quantity">
+            <button type="button" id="shape-remove" class="number-button">-1</button>
+              <div class="tooltip-container">
+                <span class="tooltip" id="removeText">Remove a shape</span>
+                <span class="tooltip" id="addText">Add another shape</span>
+              </div>
+            <button type="button" id="shape-add" class="number-button">+1</button>
+          </div>
+        </div>
+      </div>
+      <button id="aboutButton" class="number-button">?</button>
+      <div class="modal-container hide">
+        <div class="modal">
+          <div class="modal-content">
+            <h1>Fraction Visualiser</h1>
+            <p>by Tristan Curry, 2022. Based on software by Chris Heddles, 2014.</p>
+            <p>Full source repository at <a href="https://github.com/Cheddles/FractionVisualiser">https://github.com/Cheddles/FractionVisualiser</a></p>
+            <p>Released under the  <a href="http://www.gnu.org/licenses/">GNU General Public License version 3</a></p>
+            <button>Okay</button><button id="restore-tt">Reset hints</button><button id="invert-colours">Invert colours</button>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+    <script type="text/javascript" src="scripts/setup.js"></script>
+  </body>
+</html>
